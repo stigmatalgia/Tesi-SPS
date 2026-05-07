@@ -1,0 +1,75 @@
+\documentclass[12pt, a4paper]{report}
+
+% --- FONT E TIPOGRAFIA PROFESSIONALE ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{newpxtext,newpxmath}
+\usepackage{microtype} 
+\usepackage{xcolor}
+
+% --- PACCHETTI STANDARD ---
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\setlength{\marginparwidth}{2cm}
+\usepackage{todonotes}
+\usepackage{amsmath}
+\usepackage{adjustbox}
+\usepackage{nomencl}
+\usepackage{etoolbox}
+\usepackage{setspace}
+% --- MARGINI ---
+\usepackage[top=2cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
+% --- FORMATTAZIONE CAPITOLI (titlesec) ---
+\usepackage{titlesec}
+\usepackage[style=numeric, sorting=none, backend=biber]{biblatex}
+\addbibresource{References.bib}
+
+\definecolor{chapgray}{gray}{0.4} % Grigio elegante per il numero del capitolo
+
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries} % Formato generale
+  {\raggedleft\Large\color{chapgray} \chaptertitlename\ \thechapter} % Numero del capitolo (più piccolo e grigio)
+  {1ex} % Spazio tra numero e titolo
+  {\titlerule\vspace{2ex}\Huge\raggedleft} % Linea separatrice e Titolo in grande
+  [\vspace{-1ex}]
+
+% --- METADATI ---
+\title{Protecting the autonomic manager \\[1ex] \color{chapgray}\LARGE A comparative analysis of Quorum and CometBFT as blockchain backends for Self-Protecting Systems}
+\author{Valerio Tatti}
+\date{Aprile 2026}
+
+\makeatletter
+\newcommand{\myTitle}{\@title}
+\newcommand{\myAuthor}{\@author}
+\newcommand{\myDate}{\@date}
+\makeatother
+\newcommand{\myMatricola}{609824}
+\newcommand{\myRelatore}{Prof. Stefano Iannucci}
+\onehalfspacing 
+\begin{document}
+
+\pagenumbering{alph}
+% Inserisce la nuova copertina
+\input{titlePageNew}
+
+\clearpage
+\pagenumbering{roman}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\clearpage
+\pagenumbering{arabic}
+
+\input{Chapters/1-Introduction}
+\input{Chapters/2-Technologies_Setting}
+\input{Chapters/3-Self_Protecting_Systems}
+\input{Chapters/4-Requirements_Assessing}
+\input{Chapters/5-Implementation_Details}
+\input{Chapters/6-Experimental_Results}
+\input{Chapters/7-Conclusions}
+
+\printbibliography
+\end{document}

@@ -1,0 +1,50 @@
+% ==============================================================================
+% CHAPTER 2: TECHNOLOGIES SETTING
+% ==============================================================================
+
+\chapter{Technologies Setting and Related Work}
+\label{chap:technologies}
+% Introduce the background concepts necessary to understand the thesis.
+
+\section{Autonomic Computing and the MAPE Cycle}
+\label{sec:tech_autonomic}
+\subsection{Hystorical notes on the complexity crysis and its overcoming}
+The paradigm of Autonomic Computing formally emerged in October 2001, when IBM released a manifesto identifying an upcoming software complexity crisis as the primary obstacle to further progress in the IT industry[cite: 918, 928]. As computing environments began to weigh in at millions of lines of code, the expertise required for installation, configuration, and maintenance approached a limit on human capability to train new professionals. This challenge is exacerbated by the necessity of integrating several heterogeneous environments into corporate-wide systems and extending them globally across the Internet[cite: 930, 931]. IBM observed that relying solely on programming methods innovations would not suffice to manage such massive and complex systems, which often require timely responses to rapid streams of changing demands[cite: 934, 936, 937].
+
+To address this problem IBM proposed the vision of autonomic computing: systems capable of managing themselves based on high-level objectives from human administrators[cite: 939, 940]. The term "autonomic" was chosen for its biological connotation, tracing an analogy to the human autonomic nervous system[cite: 940, 941]. Just as the biological system governs vital, low-level functions such as heart rate and body temperature without conscious effort, autonomic computing aims to free human administrators from the burden of managing low-level system operations through automation[cite: 941, 969].
+
+\subsection{The Four Aspects of Self-Management}
+The essence of autonomic computing is self-management, intended to provide software that can adjust it's behaviour in accordance to human's objectives without their intervention[cite: 968, 969]. IBM characterizes self-management through four fundamental aspects, often referred to as the "self-*" properties[cite: 954, 983]:
+
+\begin{itemize}
+    \item \textbf{Self-configuration}: Systems must automatically configure components and integrate themselves into complex environments following high-level policies[cite: 984]. New components should be able to incorporate seamlessly treating other components as black boxes (history proved them right, Docker is now the de-facto standard in the deploying of application).
+    \item \textbf{Self-optimization}: Autonomic systems continually seek opportunities to improve their own performance and efficiency[cite: 984, 993]. In environments like complex middleware or databases that possess hundreds of manually set parameters, the system must monitor, experiment with, and tune these parameters dynamically[cite: 990, 994] (Again, AWS Auto-scaling is an example of self-optimization).
+    \item \textbf{Self-healing}: The system is designed to automatically detect, diagnose, and repair localized software and hardware problems[cite: 984, 1000]. Using knowledge of the system configuration and logs, the autonomic manager can identify root causes of failures, match them against known patches, and retest the system without manual debugging[cite: 1000, 1001] (Kubernetes's Liveness probe is another industry standard).
+    \item \textbf{Self-protection}: Autonomic systems defend the infrastructure as a whole against malicious attacks[cite: 984, 1004]. They use sensor reports to anticipate problems and take proactive steps to avoid or mitigate systemwide failures[cite: 1005](Cloudflare's Web application firewall).
+\end{itemize}
+
+\subsection{The Structure of Autonomic Elements}
+Architecturally, autonomic systems are composed by elements that manage their own internal behavior and relationships with others in accordance with established policies[cite: 1008]. An autonomic element typically consists of one or more managed elements coupled with a single autonomic manager[cite: 1022].
+
+\begin{itemize}
+    \item \textbf{Managed Element}: This component can be found in non-autonomic systems and can be an hardware resource (such as storage or a CPU) or a software resource (such as a database or a web service).
+    \item \textbf{Autonomic Manager}: The manager distinguishes the autonomic element by monitoring the managed element and its environment, and executing action based on the analysis of their information.
+\end{itemize}
+
+
+\subsection{Multi-Agent Dynamics and Security Challenges}
+Autonomic elements unlike typical Web services, do not honor requests unconditionally; they provide services only if doing so is consistent with their internal goals[cite: 1047, 1048].
+
+This high degree of autonomy introduces critical system-level issues that can't be ignored when looking for attack surfaces, because these systems rely on high-level goals, they are vulnerable to new forms of attack where an adversary might manipulate policies to gain systemic leverage[cite: 1144, 1145]. This highlights the necessity for a secure-by-design management infrastructure that can address the "Who watches the watchers?" situation of autonomic elements[cite: 1146, 1169, 1172].
+
+\section{Blockchain in Permissioned Environments}
+\label{sec:tech_permissioned_blockchain}
+% Discuss the differences between public and permissioned blockchains.
+
+\section{Distributed Consensus Algorithms}
+\label{sec:tech_consensus}
+% Explain Byzantine Fault Tolerance (BFT) vs non-BFT (e.g., Raft).
+
+\section{State of the Art in Protecting the Manager}
+\label{sec:tech_state_of_art}
+% Review alternative approaches (e.g., TEEs, SGX) and their limitations.
