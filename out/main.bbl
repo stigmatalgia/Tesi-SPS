@@ -347,6 +347,138 @@
       \field{pages}{111716}
       \range{pages}{1}
     \endentry
+    \entry{wang2022bft}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=03d3e23852937fa39b0e34246c4ecd1d}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod}}}%
+        {{hash=4d41844c3df15e28c30ad835c820f0f2}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Sisi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=0350494d601441cde9179d1aa9435fac}{%
+           family={Clavin},
+           familyi={C\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+        {{hash=80196af511c63950057ad75383243025}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Haibin},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{aeaae95a3851acdb0d7c761eee05b973}
+      \strng{fullhash}{cdd6a5fd45bbbbb6706146d70c6b6e26}
+      \strng{fullhashraw}{cdd6a5fd45bbbbb6706146d70c6b6e26}
+      \strng{bibnamehash}{aeaae95a3851acdb0d7c761eee05b973}
+      \strng{authorbibnamehash}{aeaae95a3851acdb0d7c761eee05b973}
+      \strng{authornamehash}{aeaae95a3851acdb0d7c761eee05b973}
+      \strng{authorfullhash}{cdd6a5fd45bbbbb6706146d70c6b6e26}
+      \strng{authorfullhashraw}{cdd6a5fd45bbbbb6706146d70c6b6e26}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Computing Surveys (CSUR)}
+      \field{number}{10s}
+      \field{title}{Bft in blockchains: From protocols to use cases}
+      \field{volume}{54}
+      \field{year}{2022}
+      \field{pages}{1\bibrangedash 37}
+      \range{pages}{37}
+    \endentry
+    \entry{buterin2013ethereum}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=850981945102d0f671b6762173c8988a}{%
+           family={Buterin},
+           familyi={B\bibinitperiod},
+           given={Vitalik},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{fullhash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{fullhashraw}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{bibnamehash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{authorbibnamehash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{authornamehash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{authorfullhash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{authorfullhashraw}{fa265b80691610b5092f93ae4a80f9b7}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{GitHub repository}
+      \field{title}{Ethereum white paper}
+      \field{volume}{1}
+      \field{year}{2013}
+      \field{pages}{22\bibrangedash 23}
+      \range{pages}{2}
+    \endentry
+    \entry{albero2026blockchain}{inproceedings}{}{}
+      \name{author}{6}{}{%
+        {{hash=2a99294cc278e4c2e251f32489cb003c}{%
+           family={Albero},
+           familyi={A\bibinitperiod},
+           given={Simone},
+           giveni={S\bibinitperiod}}}%
+        {{hash=318998351780b60f66bcd820403eac00}{%
+           family={Tatti},
+           familyi={T\bibinitperiod},
+           given={Valerio},
+           giveni={V\bibinitperiod}}}%
+        {{hash=c1e1d7e91112c088f244ba87a29567b3}{%
+           family={Pennino},
+           familyi={P\bibinitperiod},
+           given={Diego},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d514ca0bb3cfc76b6bd21f303f0b3e71}{%
+           family={Caiazzi},
+           familyi={C\bibinitperiod},
+           given={Tommaso},
+           giveni={T\bibinitperiod}}}%
+        {{hash=59dd1cd00f630a7cd097330d08eb7053}{%
+           family={Iannucci},
+           familyi={I\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod}}}%
+        {{hash=dda2ee7d7f5180c0265510e45ee45396}{%
+           family={Pizzonia},
+           familyi={P\bibinitperiod},
+           given={Maurizio},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Pula, Italy}%
+      }
+      \list{publisher}{1}{%
+        {CEUR-WS.org}%
+      }
+      \strng{namehash}{25d9f4b0de891de925808ee9991eeac0}
+      \strng{fullhash}{cbff48959b707529ab202fdc705d5cd4}
+      \strng{fullhashraw}{cbff48959b707529ab202fdc705d5cd4}
+      \strng{bibnamehash}{25d9f4b0de891de925808ee9991eeac0}
+      \strng{authorbibnamehash}{25d9f4b0de891de925808ee9991eeac0}
+      \strng{authornamehash}{25d9f4b0de891de925808ee9991eeac0}
+      \strng{authorfullhash}{cbff48959b707529ab202fdc705d5cd4}
+      \strng{authorfullhashraw}{cbff48959b707529ab202fdc705d5cd4}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 8th Distributed Ledger Technology Workshop (DLT 2026)}
+      \field{month}{6}
+      \field{note}{In press}
+      \field{title}{Which Blockchain Technology Best Supports Self-Protecting Systems? A comparison between Quorum and CometBFT}
+      \field{year}{2026}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

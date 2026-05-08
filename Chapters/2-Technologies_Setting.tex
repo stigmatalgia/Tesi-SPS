@@ -5,11 +5,11 @@
 \chapter{Technologies Setting and Related Works}
 \label{chap:technologies}
 % Introduce the background concepts necessary to understand the thesis.
-Before diving into the specific idea and implementation behind the system described in this research, it is necessary to introduce the basic theoric concepts that inspired this architecture and that will give us later tools to comprehend how to consciously evaluate which metric a Blockchain-based autonomic agent should be measured, which paradigm first described autonomic systems, which security issues we can expect, how the current SOTA solutions address them, and how our architecture compares to them.
+Before diving into the specific idea and implementation behind the system described in this research, it is necessary to introduce the basic theoretical concepts that inspired this architecture. These concepts will later provide us with the tools to comprehend by which metrics a blockchain-based autonomic agent should be measured, which paradigm first described autonomic systems, which security issues we can expect, how the current state-of-the-art (SOTA) solutions address them, and how our architecture compares to them.
 
 \section{Autonomic Computing and the MAPE Cycle}
 \label{sec:tech_autonomic}
-The paradigm of Autonomic Computing formally emerged in October 2001, when IBM released a manifesto identifying an upcoming software complexity crisis as the primary obstacle to further progress in the IT industry~\cite{kephart2003vision}. As computing environments began to weigh in at millions of lines of code, the expertise required for installation, configuration, and maintenance approached a limit on human capability to train new professionals. This challenge is exacerbated by the necessity of integrating several heterogeneous environments into corporate-wide systems and extending them globally across the Internet. IBM observed that relying solely on programming methods innovations would not suffice to manage such massive and complex systems, which often require timely responses to rapid streams of changing demands.
+The paradigm of Autonomic Computing formally emerged in October 2001, when IBM released a manifesto identifying an upcoming software complexity crisis as the primary obstacle to further progress in the IT industry~\cite{kephart2003vision}. As computing environments began to weigh in at millions of lines of code, the expertise required for installation, configuration, and maintenance approached a limit on human capability to train new professionals. This challenge was exacerbated by the necessity of integrating several heterogeneous environments into corporate-wide systems and extending them globally across the Internet. IBM observed that relying solely on innovations in programming methods would not suffice to manage such massive and complex systems, which often require timely responses to rapid streams of changing demands.
 
 To address this problem, IBM proposed the vision of autonomic computing: systems capable of managing themselves based on high-level objectives from human administrators~\cite{kephart2003vision}. The term "autonomic" was chosen for its biological connotation, tracing an analogy to the human autonomic nervous system. Just as the biological system governs vital, low-level functions such as heart rate and body temperature without conscious effort, autonomic computing aims to free human administrators from the burden of managing low-level system operations through automation.
 
@@ -28,16 +28,16 @@ The essence of autonomic computing is self-management, intended to provide softw
 Architecturally, autonomic systems are composed of elements that manage their own internal behavior and relationships with others in accordance with established policies~\cite{kephart2003vision}. An autonomic element typically consists of one or more managed elements coupled with a single autonomic manager.
 
 \begin{itemize}
-    \item \textbf{Managed Element}: This component can be found in non-autonomic systems and can be an hardware resource (such as storage or a CPU) or a software resource (such as a database or a web service).
-    \item \textbf{Autonomic Manager}: The manager distinguishes the autonomic element by monitoring the managed element and its environment, and executing action based on the analysis of their information.
+    \item \textbf{Managed Element}: This component can be found in non-autonomic systems and can be a hardware resource (such as storage or a CPU) or a software resource (such as a database or a web service).
+    \item \textbf{Autonomic Manager}: The manager distinguishes the autonomic element by monitoring the managed element and its environment, and executing actions based on the analysis of their information.
 \end{itemize}
 
 The internal logic of the autonomic manager is structured around a fundamental control loop known as the \textbf{MAPE-K} cycle~\cite{kephart2003vision, 7194653}:
 \begin{enumerate}
     \item \textbf{Monitor}: Collects, aggregates, and filters information from the managed element and its environment.
-    \item \textbf{Analyze}: Match a diagnosis on the system's high level status based on monitor's information and trigger a response.
+    \item \textbf{Analyze}: Matches a diagnosis on the system's high-level status based on monitored information and triggers a response.
     \item \textbf{Plan}: Creates or selects a sequence of actions that matches the organization's objectives.
-    \item \textbf{Execute}: Applies the derived plan / action to the managed element through effectors .
+    \item \textbf{Execute}: Applies the derived plan / action to the managed element through effectors.
     \item \textbf{Knowledge}: A central repository for policies, historical data, and system configurations that supports the other four phases defining the organization's objectives.
 \end{enumerate}
 
@@ -48,11 +48,44 @@ This high degree of autonomy introduces critical system-level issues that cannot
 
 \section{Blockchain in Permissioned Environments}
 \label{sec:tech_permissioned_blockchain}
-% Discuss the differences between public and permissioned blockchains.
 
+The integration of blockchain technology to register system state represents an innovative approach to ensuring cyber-resilience~\cite{11126595}. However, in this specific application context, the choice of the underlying blockchain platform is not neutral, and it is necessary to define which blockchain properties are beneficial for a Self-Protecting System. A fundamental distinction must be made between public (permissionless) blockchains and private (permissioned) blockchains~\cite{wang2022bft}.
+
+\subsection{Smart Contracts and Response Logic}
+Before analyzing network access models, it is essential to define the mechanism through which the blockchain enforces security policies: the \textit{smart contract}. A smart contract is a self-executing distributed software deployed on a blockchain that automatically enforces predefined rules and agreements between nodes without the need for intermediaries~\cite{buterin2013ethereum}.
+
+Once deployed, smart contracts run deterministically across all nodes in the network, ensuring the transparency, trustlessness, and immutability of the encoded logic~\cite{buterin2013ethereum}. In the context of a Self-Protecting System (SPS), the integrity of the smart contract's state and its execution is guaranteed by the inherent properties of the blockchain itself~\cite{11126595}. This enables the autonomic manager to maintain a consistent, system-wide view and coordinate responses even under partial compromise~\cite{11126595}.
+
+\subsection{Characteristics of Permissioned Environments}
+Public blockchains are designed as open networks where anyone can participate. In contrast, a permissioned environment requires nodes to authenticate each other, often within a fixed trust boundary~\cite{wang2022bft}. This architectural difference fundamentally alters the threat model and the system's performance requirements.
+
+In a permissioned network, many attacks traditionally critical for permissionless blockchains, such as Sybil and Eclipse attacks, are naturally mitigated because participant identities are controlled and membership is typically static~\cite{11126595}.
+
+Since permissionless environments adopt a fundamentally "trustless" model, they must employ strict, and often resource-expensive, consensus algorithms. In a permissioned blockchain, consensus can be simplified because all participating nodes are pre-vetted, identified, and operate within a predefined deployment. Consequently, the economic dynamics, gas fees, token incentives, and game-theory mechanisms typical of public cryptocurrencies designed to coordinate anonymous actors become functionally obsolete~\cite{albero2026blockchain}. Furthermore, general-purpose virtual machines (VMs) such as the Ethereum Virtual Machine (EVM) often introduce unnecessary complexity, processing overhead, and a broader attack surface when the system only requires a constrained, deterministic runtime for state transitions~\cite{albero2026blockchain}.
+
+Instead, the focus in such environments shifts towards a specific set of essential properties. As highlighted in recent literature evaluating blockchain implementations for Self-Protecting Systems~\cite{albero2026blockchain}, the required features are:
+\begin{itemize}
+    \item \textbf{Byzantine Fault-Tolerant (BFT) consensus with strong finality}: To tolerate a bounded number of compromised nodes and commit updates deterministically.
+    \item \textbf{Static permissioned membership}: To match the fixed trust boundary of the deployment.
+    \item \textbf{Cryptographic transaction signing}: To ensure the authenticity and accountability of alerts submitted by IDSs.
+    \item \textbf{Event-driven block production}: To optimize resource usage by generating blocks only when pending transactions (e.g., security alerts) are present, rather than continuously producing empty blocks during idle periods.
+\end{itemize}
+
+Additionally, desirable properties include in-memory replicated state handling (as the shared state in an SPS is typically small), low and predictable latency to guarantee timely countermeasures, and push-based notifications to immediately trigger actuators upon state updates~\cite{albero2026blockchain}.
+
+\subsection{Alignment with SPS Requirements}
+For an SPS, the blockchain's sole functions are:
+\begin{itemize}
+    \item To gather a shared state from Intrusion Detection Systems (IDS)~\cite{11126595}.
+    \item To ensure the reliable functioning of the response logic even in the presence of security faults in the managed system or in the autonomic manager~\cite{11126595}.
+    \item To communicate the response logic's decisions to the actuators securely~\cite{11126595}.
+\end{itemize}
+
+Under these assumptions, permissioned environments offer indispensable advantages, such as static membership that matches the trust boundaries of a real-world deployment~\cite{albero2026blockchain}. Furthermore, cryptographic transaction signing ensures the authenticity and accountability of sensor submissions~\cite{11126595, albero2026blockchain}. Finally, while blockchain provides an immutable audit trail for forensics, permissioned settings may allow for configurable data-retention policies, which is particularly relevant for resource-constrained or embedded systems~\cite{albero2026blockchain}.
+
+Ultimately, the relevant blockchain properties in this domain are not openness or tokenization, but minimality, determinism, and resilience~\cite{albero2026blockchain}.
 \section{Distributed Consensus Algorithms}
 \label{sec:tech_consensus}
-% Explain Byzantine Fault Tolerance (BFT) vs non-BFT (e.g., Raft).
 
 \section{State of the Art in Protecting the Manager}
 \label{sec:tech_state_of_art}
