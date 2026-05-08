@@ -2,13 +2,13 @@
 % CHAPTER 2: TECHNOLOGIES SETTING
 % ==============================================================================
 
-\chapter{Technologies Setting and Related Work}
+\chapter{Technologies Setting and Related Works}
 \label{chap:technologies}
 % Introduce the background concepts necessary to understand the thesis.
+Before diving into the specific idea and implementation behind the system described in this research, it is necessary to introduce the basic theoric concepts that inspired this architecture and that will give us later tools to comprehend how to consciously evaluate which metric a Blockchain-based autonomic agent should be measured, which paradigm first described autonomic systems, which security issues we can expect, how the current SOTA solutions address them, and how our architecture compares to them.
 
 \section{Autonomic Computing and the MAPE Cycle}
 \label{sec:tech_autonomic}
-\subsection{Hystorical notes on the complexity crysis and its overcoming}
 The paradigm of Autonomic Computing formally emerged in October 2001, when IBM released a manifesto identifying an upcoming software complexity crisis as the primary obstacle to further progress in the IT industry[cite: 918, 928]. As computing environments began to weigh in at millions of lines of code, the expertise required for installation, configuration, and maintenance approached a limit on human capability to train new professionals. This challenge is exacerbated by the necessity of integrating several heterogeneous environments into corporate-wide systems and extending them globally across the Internet[cite: 930, 931]. IBM observed that relying solely on programming methods innovations would not suffice to manage such massive and complex systems, which often require timely responses to rapid streams of changing demands[cite: 934, 936, 937].
 
 To address this problem IBM proposed the vision of autonomic computing: systems capable of managing themselves based on high-level objectives from human administrators[cite: 939, 940]. The term "autonomic" was chosen for its biological connotation, tracing an analogy to the human autonomic nervous system[cite: 940, 941]. Just as the biological system governs vital, low-level functions such as heart rate and body temperature without conscious effort, autonomic computing aims to free human administrators from the burden of managing low-level system operations through automation[cite: 941, 969].
@@ -31,8 +31,16 @@ Architecturally, autonomic systems are composed by elements that manage their ow
     \item \textbf{Autonomic Manager}: The manager distinguishes the autonomic element by monitoring the managed element and its environment, and executing action based on the analysis of their information.
 \end{itemize}
 
+The internal logic of the autonomic manager is structured around a fundamental control loop known as the \textbf{MAPE-K} cycle[cite: 1013, 1016]:
+\begin{enumerate}
+    \item \textbf{Monitor}: Collects, aggregates, and filters information from the managed element and its environment.
+    \item \textbf{Analyze}: Match a diagnosis on the system's high level status based on monitor's information and trigger a response.
+    \item \textbf{Plan}: Creates or selects a sequence of actions that matches the organization's objectives.
+    \item \textbf{Execute}: Applies the derived plan / action to the managed element through effectors .
+    \item \textbf{Knowledge}: A central repository for policies, historical data, and system configurations that supports the other four phases defining the organization's objectives[cite: 1016, 1063].
+\end{enumerate}
 
-\subsection{Multi-Agent Dynamics and Security Challenges}
+\subsection{Security Challenges}
 Autonomic elements unlike typical Web services, do not honor requests unconditionally; they provide services only if doing so is consistent with their internal goals[cite: 1047, 1048].
 
 This high degree of autonomy introduces critical system-level issues that can't be ignored when looking for attack surfaces, because these systems rely on high-level goals, they are vulnerable to new forms of attack where an adversary might manipulate policies to gain systemic leverage[cite: 1144, 1145]. This highlights the necessity for a secure-by-design management infrastructure that can address the "Who watches the watchers?" situation of autonomic elements[cite: 1146, 1169, 1172].
