@@ -479,6 +479,40 @@
       \field{title}{Which Blockchain Technology Best Supports Self-Protecting Systems? A comparison between Quorum and CometBFT}
       \field{year}{2026}
     \endentry
+    \entry{kathara}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=9501f2059db90cfc91a8879eb24e1d6e}{%
+           family={{Scazzariello}},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b6f8e93170bb975b199ae6fb43527558}{%
+           family={{Ariemma}},
+           familyi={A\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=9381f2531b581e62bedb0d3263bc555a}{%
+           family={{Caiazzi}},
+           familyi={C\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{486772e4fc2de8d78d5ded79e95c1564}
+      \strng{fullhash}{486772e4fc2de8d78d5ded79e95c1564}
+      \strng{fullhashraw}{486772e4fc2de8d78d5ded79e95c1564}
+      \strng{bibnamehash}{486772e4fc2de8d78d5ded79e95c1564}
+      \strng{authorbibnamehash}{486772e4fc2de8d78d5ded79e95c1564}
+      \strng{authornamehash}{486772e4fc2de8d78d5ded79e95c1564}
+      \strng{authorfullhash}{486772e4fc2de8d78d5ded79e95c1564}
+      \strng{authorfullhashraw}{486772e4fc2de8d78d5ded79e95c1564}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium}
+      \field{title}{{Kathará: A Lightweight Network Emulation System}}
+      \field{year}{2020}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
