@@ -5,18 +5,18 @@
 \chapter{Self-Protecting Systems Architecture}
 \label{chap:sps_architecture}
 
-This chapter details the architectural core of the proposed blockchain-based Self-Protecting System (SPS), focusing on how to address the centralized autonomic manager's problem explored in ~\ref{sec:tech_state_of_art}. The model presented herein is grounded in the foundational decentralized architecture introduced by ~\cite{11126595} and subsequently refined through the requirement-driven analysis by our research ~\cite{albero2026blockchain}. The primary objective is to formalize the system decomposition, state model, end-to-end protection workflow, threat assumptions, and resilience properties. These components justify the integration of a permissioned, Byzantine Fault Tolerant (BFT) distributed ledger as the secure decision substrate for the autonomic manager.
+This chapter details the architectural core of the proposed blockchain-based Self-Protecting System (SPS), focusing on how to address the centralized autonomic manager's problem explored in Section ~\ref{sec:tech_state_of_art}. The model presented herein is grounded in the foundational decentralized architecture introduced in ~\cite{11126595} and subsequently refined through the requirement-driven analysis by our research ~\cite{albero2026blockchain}. The primary objective is to formalize the system decomposition, state model, end-to-end protection workflow, threat assumptions, and resilience properties. These components justify the integration of a permissioned, Byzantine Fault Tolerant (BFT) distributed ledger as the secure decision substrate for the autonomic manager.
 
 \section{Design Principles and Rationale}
 \label{sec:design_principles}
 
-Traditional Self-Protecting Systems are typically designed around a centralized MAPE-K (Monitor-Analyze-Plan-Execute over Shared Knowledge) feedback loop~\cite{kephart2003vision}. While functionally effective, this centralized model introduces a fundamental security asymmetry: the managed system can be replicated, segmented, and protected, whereas the autonomic manager itself remains a high-value, centralized target. If an adversary successfully compromises the manager, they can suppress valid security alerts, trigger unauthorized response actions, or stall mitigation entirely. This effectively neutralizes the self-protection mechanism and grants the attacker complete control over the production environment~\cite{chess2003security, pekaric2023systematic}.
+Traditional SPSs are typically designed around a centralized MAPE-K feedback loop~\cite{kephart2003vision}. While functionally effective, this centralized model introduces a fundamental security asymmetry: the managed system can be replicated, segmented, and protected, whereas the autonomic manager itself remains a high-value, centralized target. If an adversary successfully compromises the manager, they can suppress valid security alerts, trigger unauthorized response actions, or stall mitigation entirely. This effectively neutralizes the self-protection mechanism and grants the attacker complete control over the production environment~\cite{chess2003security, pekaric2023systematic}.
 
-To address this structural vulnerability, the architecture proposed in this thesis distributes the decision authority of the autonomic manager across replicated, isolated nodes coordinated through a permissioned blockchain using BFT consensus~\cite{11126595}. The core design choice is not simply the adoption of blockchain as a modern storage medium, but its use as a replicated state machine where:
+To address this structural vulnerability, the architecture proposed in this thesis distributes the decision authority of the autonomic manager across replicated, isolated nodes coordinated through a permissioned blockchain using BFT consensus~\cite{11126595}. The core design choice is not simply the adoption of blockchain as a modern storage medium, but its use as a replicated state machine in which:
 \begin{itemize}
-    \item \textbf{Consensus-driven state updates}: Monitored variables representing the managed system state are updated only after achieving quorum-based agreement among independent observers,
-    \item \textbf{Deterministic transitions}: Response decisions are modeled as deterministic functions of the globally agreed state, guaranteeing that honest nodes reach identical conclusions,
-    \item \textbf{Auditable actuation}: Actuation instructions are pushed from a tamper-evident, globally replicated log, ensuring source accountability and post-incident forensic auditability.
+    \item \textbf{Consensus-driven state updates}: Monitored variables representing the managed system state are updated only after achieving quorum-based agreement among independent observers;
+    \item \textbf{Deterministic transitions}: Response decisions are modeled as deterministic functions of the globally agreed state, guaranteeing that honest nodes reach identical conclusions;
+    \item \textbf{Auditable actuation}: Actuation instructions are pushed from a tamper-evident, globally replicated log, ensuring source accountability and post-incident forensic auditability;
 \end{itemize}
 
 By encoding the autonomic manager within a Byzantine Fault Tolerant ledger, trust is shifted from a single, hardening-dependent process to a formal fault model. The central security question shifts to determining the number of components that can fail or be corrupted before the safety and liveness of the control loop are violated, exposing the managed system to threats. 
@@ -44,14 +44,14 @@ Security-relevant events (e.g., a Denial of Service attack or a SQL injection at
 \subsection{Manager System}
 \label{subsec:manager_system}
 
-The manager system is the actuation plane in charge of processing state observations and executing responses. It is decomposed into three logical planes:
+The manager system is the Control plane in charge of processing state observations and executing responses. It is decomposed into three logical planes:
 \begin{enumerate}
     \item \textbf{Detection Plane}: Composed of multiple independent IDS instances that observe overlapping portions of the managed system's state variables $\mathbf{V}$.
     \item \textbf{Consensus-and-Decision Plane}: A permissioned blockchain network that maintains the replicated decision state and executes the response selection logic.
-    \item \textbf{Actuation Plane}: A set of response executors (actuators) that receive committed mitigation commands and enforce them on the managed system.
+    \item \textbf{Control Plane}: A set of response executors (actuators) that receive committed mitigation commands and enforce them on the managed system.
 \end{enumerate}
 
-Each active component in the detection and actuation planes is paired with a blockchain-facing node. In our design, we distinguish between \emph{validating nodes} (which participate in the BFT consensus protocol) and \emph{member or light nodes} (which submit transactions or listen to events without validating blocks). This separation decouples functional roles from consensus overhead, allowing the validator set to remain small and efficient while the number of sensors and actuators scales.
+Each active component in the Detection and Control planes is paired with a blockchain-facing node. In our design, we distinguish between \emph{validating nodes} (which participate in the BFT consensus protocol) and \emph{member or light nodes} (which submit transactions or listen to events without validating blocks). This separation decouples functional roles from consensus overhead, allowing the validator set to remain small and efficient while the number of sensors and actuators scales.
 
 \subsection{Isolation and Containerization Requirements}
 \label{subsec:isolation_primitive}
@@ -143,12 +143,20 @@ To overcome this limitation, the state representation must incorporate historica
 
 The proposed architecture establishes a closed-loop control pipeline that processes security events from detection to mitigation. The workflow consists of four sequential, causally ordered stages:
 
+
 \subsection{Managed Monitoring and Attack Detection}
 \label{subsec:stage_detection}
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\textwidth, clip]{Figures/SPS.pdf}
+  \caption{A formalized representation of the SPS in all it's components.}
+  \label{fig:setting}
+\end{figure}
 When a malicious or anomalous event occurs in the managed system, it alters one or more monitored variables. The independent IDSs observing these variables detect the anomaly and evaluate the event type. Because different IDSs utilize different detection engines (e.g., signature-based vs. protocol analysis) and run on distinct containers, they may flag the attack at slightly different times, introducing a temporal skew. The architecture accommodates this asynchrony by aggregating alerts incrementally on the blockchain's smart contract.
 \subsection{Alert and Transaction Submission}
 \label{subsec:stage_submission}
+
 
 The detecting IDS sends an alert to an associated Member Node that wraps the observation into a proposal, signs it cryptographically, and submits it as a transaction to its paired blockchain node. The entire permissioned blockchain network receives the transaction and verifies the signature against the membership service. Because the blockchain nodes are isolated from the untrusted managed system, an external attacker who has compromised an application container cannot easily inject forged transactions or manipulate the consensus membership without compromising multiple IDSs. This process is discussed in more detail in Section~\ref{subsec:two_layer_fault_tolerance}.
 
@@ -167,12 +175,12 @@ The enforcement of the countermeasure alters the managed system's state, returni
 \section{Correctness and Actuation Properties}
 \label{sec:act_plane_properties}
 
-To evaluate the reliability of the actuation plane, we define formal correctness properties that must be preserved by the architecture.
+To evaluate the reliability of the Control plane, we define formal correctness properties that must be preserved by the architecture.
 
 \subsection{Safety Invariants}
 \label{subsec:act_safety}
 
-Safety in the actuation plane requires that the manager never triggers unauthorized or conflicting actions. We express this through two formal invariants:
+Safety in the Control plane requires that the manager never triggers unauthorized or conflicting actions. We express this through two formal invariants:
 
 \begin{enumerate}
     \item \textbf{No Unauthorized Actuation}: Let $A$ be the set of mitigation actions, and let $E_{exec}(a)$ denote the event that action $a \in A$ is executed by an actuator. Let $\Sigma_{commit}(a)$ denote the event that the replicated state machine commits a transition emitting the response action $a$. The safety invariant requires:
@@ -194,9 +202,7 @@ The combination of these two invariants is critical. Reaching consensus without 
 
 Liveness ensures that the system reacts to threats in a timely manner. Formally, if a security breach changes the monitored variables $v_j$ at time $t$ such that the response logic requires action $a$, then a non-faulty actuator must execute $a$ at some time $t' > t$, assuming that the number of Byzantine failures does not exceed the consensus protocol's threshold.
 
-Liveness is practically constrained by validator availability, transaction submission latency, and block production times. The block production model of the blockchain backend is a relevant parameter when choosing the technology to implement the system and will be addressed in Chapter. //TODO aggiungere al capitolo su comparazione!!
-Under a fixed-interval block production model (such as in GoQuorum), transactions must wait in the mempool for the next block timer, introducing a systematic delay. In contrast, an event-driven block production model (such as in CometBFT) creates blocks as soon as transactions are available, minimizing reaction latency under sparse threat conditions.
-
+Liveness is practically constrained by validator availability, transaction submission latency, and block production times. The block production model of the blockchain backend is a relevant parameter when choosing the technology to implement the system and will be addressed in Chapter. 
 
 \section{Failure, Recovery and Security}
 \label{sec:failure_recovery_semantics}
@@ -224,7 +230,16 @@ If the number of failed validators remains within this threshold ($f \le f_v$), 
 \subsection{Network Partitions}
 \label{subsec:network_partitions}
 
-In the event of a network partition, the CAP theorem applies //TODO Citare il CAP theorem, forse scriverlo in breve da qualche parte, da valutare. The BFT-based manager prioritizes consistency (safety) over availability (liveness). 
+In the event of a network partition, the CAP (Consistency, Availability, Partition tolerance) theorem applies:
+
+According to the CAP theorem, it is impossible for a distributed data store to simultaneously provide more than two out of the following three guarantees: Consistency ($C$), Availability ($A$), and Partition Tolerance ($P$). Formally, given a network partition ($P$), the system cannot maintain both consistency and availability, which can be expressed as:
+\[
+P \implies \neg (C \land A)
+\]
+Consequently, under a network partition, a system must make a trade-off, leading to either a $CP$ (Consistency/Partition Tolerance) or an $AP$ (Availability/Partition Tolerance) design strategy.
+
+
+The BFT-based manager prioritizes consistency (safety) over availability (liveness). 
 Only the partition containing a supermajority of validators ($Q_v$) can continue committing state transitions. Minority partitions are unable to reach consensus and stall. While this temporarily reduces responsiveness in isolated segments, it prevents the creation of divergent control histories, preserving the integrity of the global state.
 
 

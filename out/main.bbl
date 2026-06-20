@@ -513,6 +513,360 @@
       \field{title}{{Kathará: A Lightweight Network Emulation System}}
       \field{year}{2020}
     \endentry
+    \entry{QBFTCons90:online}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=5796541a0e1689764aab083e0706354b}{%
+           family={{ConsenSys}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{5796541a0e1689764aab083e0706354b}
+      \strng{fullhash}{5796541a0e1689764aab083e0706354b}
+      \strng{fullhashraw}{5796541a0e1689764aab083e0706354b}
+      \strng{bibnamehash}{5796541a0e1689764aab083e0706354b}
+      \strng{authorbibnamehash}{5796541a0e1689764aab083e0706354b}
+      \strng{authornamehash}{5796541a0e1689764aab083e0706354b}
+      \strng{authorfullhash}{5796541a0e1689764aab083e0706354b}
+      \strng{authorfullhashraw}{5796541a0e1689764aab083e0706354b}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{11}
+      \field{note}{[Online; accessed 2025-02-26]}
+      \field{title}{QBFT | ConsenSys GoQuorum}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://docs.goquorum.consensys.io/configure-and-manage/configure/consensus-protocols/qbft
+      \endverb
+      \verb{url}
+      \verb https://docs.goquorum.consensys.io/configure-and-manage/configure/consensus-protocols/qbft
+      \endverb
+    \endentry
+    \entry{moniz2020istanbul}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=d60668ee3d347d02e852eabc67d1574b}{%
+           family={Moniz},
+           familyi={M\bibinitperiod},
+           given={Henrique},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{d60668ee3d347d02e852eabc67d1574b}
+      \strng{fullhash}{d60668ee3d347d02e852eabc67d1574b}
+      \strng{fullhashraw}{d60668ee3d347d02e852eabc67d1574b}
+      \strng{bibnamehash}{d60668ee3d347d02e852eabc67d1574b}
+      \strng{authorbibnamehash}{d60668ee3d347d02e852eabc67d1574b}
+      \strng{authornamehash}{d60668ee3d347d02e852eabc67d1574b}
+      \strng{authorfullhash}{d60668ee3d347d02e852eabc67d1574b}
+      \strng{authorfullhashraw}{d60668ee3d347d02e852eabc67d1574b}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2002.03613}
+      \field{title}{The Istanbul BFT consensus algorithm}
+      \field{year}{2020}
+    \endentry
+    \entry{buchman2018latest}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=3ee676236f9c28570004181d440bf0d2}{%
+           family={Buchman},
+           familyi={B\bibinitperiod},
+           given={Ethan},
+           giveni={E\bibinitperiod}}}%
+        {{hash=c30f8ee7746255fb967f73ce6b1f5821}{%
+           family={Kwon},
+           familyi={K\bibinitperiod},
+           given={Jae},
+           giveni={J\bibinitperiod}}}%
+        {{hash=d7079d9b2fb18fad6e40a63de49161a3}{%
+           family={Milosevic},
+           familyi={M\bibinitperiod},
+           given={Zarko},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{b0c941932c56a21d94399f4d3c3e5431}
+      \strng{fullhash}{b0c941932c56a21d94399f4d3c3e5431}
+      \strng{fullhashraw}{b0c941932c56a21d94399f4d3c3e5431}
+      \strng{bibnamehash}{b0c941932c56a21d94399f4d3c3e5431}
+      \strng{authorbibnamehash}{b0c941932c56a21d94399f4d3c3e5431}
+      \strng{authornamehash}{b0c941932c56a21d94399f4d3c3e5431}
+      \strng{authorfullhash}{b0c941932c56a21d94399f4d3c3e5431}
+      \strng{authorfullhashraw}{b0c941932c56a21d94399f4d3c3e5431}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1807.04938}
+      \field{title}{The latest gossip on BFT consensus}
+      \field{year}{2018}
+    \endentry
+    \entry{cometbft}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=5d5882f9a769564c252367d11c98610e}{%
+           family={{CometBFT Developers}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{5d5882f9a769564c252367d11c98610e}
+      \strng{fullhash}{5d5882f9a769564c252367d11c98610e}
+      \strng{fullhashraw}{5d5882f9a769564c252367d11c98610e}
+      \strng{bibnamehash}{5d5882f9a769564c252367d11c98610e}
+      \strng{authorbibnamehash}{5d5882f9a769564c252367d11c98610e}
+      \strng{authornamehash}{5d5882f9a769564c252367d11c98610e}
+      \strng{authorfullhash}{5d5882f9a769564c252367d11c98610e}
+      \strng{authorfullhashraw}{5d5882f9a769564c252367d11c98610e}
+      \field{extraname}{1}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://cometbft.com}}
+      \field{note}{Accessed April 2026}
+      \field{title}{{CometBFT}}
+      \field{year}{2025}
+    \endentry
+    \entry{abciOverview}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=a0395e88bc479e73ab431b6d99bb849f}{%
+           family={{Cosmos SDK Documentation}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{a0395e88bc479e73ab431b6d99bb849f}
+      \strng{fullhash}{a0395e88bc479e73ab431b6d99bb849f}
+      \strng{fullhashraw}{a0395e88bc479e73ab431b6d99bb849f}
+      \strng{bibnamehash}{a0395e88bc479e73ab431b6d99bb849f}
+      \strng{authorbibnamehash}{a0395e88bc479e73ab431b6d99bb849f}
+      \strng{authornamehash}{a0395e88bc479e73ab431b6d99bb849f}
+      \strng{authorfullhash}{a0395e88bc479e73ab431b6d99bb849f}
+      \strng{authorfullhashraw}{a0395e88bc479e73ab431b6d99bb849f}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed May 2026}
+      \field{title}{{ABCI Overview}}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://docs.cosmos.network/sdk/latest/guides/abci/abci.md
+      \endverb
+      \verb{url}
+      \verb https://docs.cosmos.network/sdk/latest/guides/abci/abci.md
+      \endverb
+    \endentry
+    \entry{cometbftConfig}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=5d5882f9a769564c252367d11c98610e}{%
+           family={{CometBFT Developers}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{5d5882f9a769564c252367d11c98610e}
+      \strng{fullhash}{5d5882f9a769564c252367d11c98610e}
+      \strng{fullhashraw}{5d5882f9a769564c252367d11c98610e}
+      \strng{bibnamehash}{5d5882f9a769564c252367d11c98610e}
+      \strng{authorbibnamehash}{5d5882f9a769564c252367d11c98610e}
+      \strng{authornamehash}{5d5882f9a769564c252367d11c98610e}
+      \strng{authorfullhash}{5d5882f9a769564c252367d11c98610e}
+      \strng{authorfullhashraw}{5d5882f9a769564c252367d11c98610e}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed May 2026}
+      \field{title}{{CometBFT Configuration}}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://github.com/cometbft/cometbft/blob/main/config/config.go
+      \endverb
+      \verb{url}
+      \verb https://github.com/cometbft/cometbft/blob/main/config/config.go
+      \endverb
+    \endentry
+    \entry{monte2020scaling}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=e0faea20fb2a7c7a701c6e8b1ea05946}{%
+           family={Monte},
+           familyi={M\bibinitperiod},
+           given={Gianmaria\bibnamedelima Del},
+           giveni={G\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=c1e1d7e91112c088f244ba87a29567b3}{%
+           family={Pennino},
+           familyi={P\bibinitperiod},
+           given={Diego},
+           giveni={D\bibinitperiod}}}%
+        {{hash=dda2ee7d7f5180c0265510e45ee45396}{%
+           family={Pizzonia},
+           familyi={P\bibinitperiod},
+           given={Maurizio},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{6494d4647dabc63aa4185340268e4d91}
+      \strng{fullhash}{6494d4647dabc63aa4185340268e4d91}
+      \strng{fullhashraw}{6494d4647dabc63aa4185340268e4d91}
+      \strng{bibnamehash}{6494d4647dabc63aa4185340268e4d91}
+      \strng{authorbibnamehash}{6494d4647dabc63aa4185340268e4d91}
+      \strng{authornamehash}{6494d4647dabc63aa4185340268e4d91}
+      \strng{authorfullhash}{6494d4647dabc63aa4185340268e4d91}
+      \strng{authorfullhashraw}{6494d4647dabc63aa4185340268e4d91}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 3rd Workshop on Cryptocurrencies and Blockchains for Distributed Systems}
+      \field{title}{Scaling blockchains without giving up decentralization and security: A solution to the blockchain scalability trilemma}
+      \field{year}{2020}
+      \field{pages}{71\bibrangedash 76}
+      \range{pages}{6}
+    \endentry
+    \entry{iannucci2018model}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=59dd1cd00f630a7cd097330d08eb7053}{%
+           family={Iannucci},
+           familyi={I\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod}}}%
+        {{hash=aa8f59ff01e64ca830a1808a1bdf4ddf}{%
+           family={Abdelwahed},
+           familyi={A\bibinitperiod},
+           given={Sherif},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b6b3efec99f26cb637bcae33feb87d32}{%
+           family={Montemaggio},
+           familyi={M\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=4903e643745b267954c24c79007e47ab}{%
+           family={Hannis},
+           familyi={H\bibinitperiod},
+           given={Melissa},
+           giveni={M\bibinitperiod}}}%
+        {{hash=2ed515ab1cc4ab0e672f4f3819bbcd58}{%
+           family={Leonard},
+           familyi={L\bibinitperiod},
+           given={Leslie},
+           giveni={L\bibinitperiod}}}%
+        {{hash=eef6ff7b1d877784273c234bee674814}{%
+           family={King},
+           familyi={K\bibinitperiod},
+           given={Jason\bibnamedelima S},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=bbcad90902a4e7fe192ec81044843fcd}{%
+           family={Hamilton},
+           familyi={H\bibinitperiod},
+           given={John\bibnamedelima A},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{badb315478d5150405773bfafcc1e70b}
+      \strng{fullhash}{ce124902a3019a0b2eea24e37da2d4f9}
+      \strng{fullhashraw}{ce124902a3019a0b2eea24e37da2d4f9}
+      \strng{bibnamehash}{badb315478d5150405773bfafcc1e70b}
+      \strng{authorbibnamehash}{badb315478d5150405773bfafcc1e70b}
+      \strng{authornamehash}{badb315478d5150405773bfafcc1e70b}
+      \strng{authorfullhash}{ce124902a3019a0b2eea24e37da2d4f9}
+      \strng{authorfullhashraw}{ce124902a3019a0b2eea24e37da2d4f9}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Software Engineering}
+      \field{number}{12}
+      \field{title}{A model-integrated approach to designing self-protecting systems}
+      \field{volume}{46}
+      \field{year}{2018}
+      \field{pages}{1380\bibrangedash 1392}
+      \range{pages}{13}
+    \endentry
+    \entry{atzei2017survey}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=fa184721f103eac2970fa8f209990d67}{%
+           family={Atzei},
+           familyi={A\bibinitperiod},
+           given={Nicola},
+           giveni={N\bibinitperiod}}}%
+        {{hash=2d02e0086a3b5333f3f804c853b6ae0a}{%
+           family={Bartoletti},
+           familyi={B\bibinitperiod},
+           given={Massimo},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3a9c286e4b151732b5a8a9076e784d41}{%
+           family={Cimoli},
+           familyi={C\bibinitperiod},
+           given={Tiziana},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{f700c8ad48789f9500314c4059a84040}
+      \strng{fullhash}{f700c8ad48789f9500314c4059a84040}
+      \strng{fullhashraw}{f700c8ad48789f9500314c4059a84040}
+      \strng{bibnamehash}{f700c8ad48789f9500314c4059a84040}
+      \strng{authorbibnamehash}{f700c8ad48789f9500314c4059a84040}
+      \strng{authornamehash}{f700c8ad48789f9500314c4059a84040}
+      \strng{authorfullhash}{f700c8ad48789f9500314c4059a84040}
+      \strng{authorfullhashraw}{f700c8ad48789f9500314c4059a84040}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on principles of security and trust}
+      \field{title}{A survey of attacks on ethereum smart contracts (sok)}
+      \field{year}{2017}
+      \field{pages}{164\bibrangedash 186}
+      \range{pages}{23}
+    \endentry
+    \entry{kushwaha2022systematic}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=0a0a24d1beeebdf09f4594821fc56f54}{%
+           family={Kushwaha},
+           familyi={K\bibinitperiod},
+           given={Satpal\bibnamedelima Singh},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=68fdade8d854badff96aff7b92f267ca}{%
+           family={Joshi},
+           familyi={J\bibinitperiod},
+           given={Sandeep},
+           giveni={S\bibinitperiod}}}%
+        {{hash=a14efa7c3964eff54661c1ae424ca3f0}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Dilbag},
+           giveni={D\bibinitperiod}}}%
+        {{hash=79493311b04e4ee9ab74d502bb428fd4}{%
+           family={Kaur},
+           familyi={K\bibinitperiod},
+           given={Manjit},
+           giveni={M\bibinitperiod}}}%
+        {{hash=cf5f03b5d2b8b6be28b0b306441a5a39}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Heung-No},
+           giveni={H\bibinithyphendelim N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{f5af39e7a718c0f302493369710141b7}
+      \strng{fullhash}{b9bc6c96176d99b49d985d608ae17d06}
+      \strng{fullhashraw}{b9bc6c96176d99b49d985d608ae17d06}
+      \strng{bibnamehash}{f5af39e7a718c0f302493369710141b7}
+      \strng{authorbibnamehash}{f5af39e7a718c0f302493369710141b7}
+      \strng{authornamehash}{f5af39e7a718c0f302493369710141b7}
+      \strng{authorfullhash}{b9bc6c96176d99b49d985d608ae17d06}
+      \strng{authorfullhashraw}{b9bc6c96176d99b49d985d608ae17d06}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{Systematic review of security vulnerabilities in ethereum blockchain smart contract}
+      \field{volume}{10}
+      \field{year}{2022}
+      \field{pages}{6605\bibrangedash 6621}
+      \range{pages}{17}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

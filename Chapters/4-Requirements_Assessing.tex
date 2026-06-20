@@ -2,23 +2,159 @@
 % CHAPTER 4: REQUIREMENTS ASSESSING
 % ==============================================================================
 
+
 \chapter{Requirement Alignment: Quorum vs. CometBFT}
 \label{chap:requirements}
+\label{sec:comparison}
 
-% This is the theoretical core of the comparison.
+This chapter evaluates how Quorum and CometBFT align with the requirements derived in the preceding analysis of our SPS-architecture. The focus is on understanding the practical match between those requirements and the design assumptions of the two platforms. In this sense, \emph{alignment} means that the distributed platform's design choices, operational model, and implementative costs tightly fit the requirements of a cyber-resilient SPS's autonomic manager, without adding functionality that is either irrelevant or actively counterproductive in our application domain.
 
-\section{Specific Requirements for SPS Applications}
-\label{sec:req_sps_needs}
-% Analyze what is actually needed (e.g., BFT, event-driven blocks) and what is not (Gas, PoW).
+The SPS manager is essentially a replicated, deterministic coordinator that receives sparse alerts, aggregates them, and triggers countermeasures. This is a narrow use case compared to the general-purpose decentralized  and firmly untrusted application ecosystems that motivated the existence of the blockchain as we know it. Therefore, the most relevant dimension of comparison is whether each platform supports the required properties \emph{as first-class, low-overhead features}, and whether it avoids non-needed functionality that increases the trusted computing base or injects avoidable delay. Table~\ref{tab:comparison} summarizes the high-level mapping, the remainder of this section justifies each cell in that mapping and discusses the trade-offs that arise from different design philosophies.
+\clearpage
+\begin{table}
+\centering
+\caption{Mapping of Quorum and CometBFT features to SPS blockchain requirements.}
+\label{tab:comparison}
 
-\section{Analysis of GoQuorum}
-\label{sec:req_quorum}
-% Discuss the legacy approach, EVM overhead, and fixed-interval block production.
+\renewcommand{\arraystretch}{1.2}
 
-\section{Analysis of CometBFT}
-\label{sec:req_cometbft}
-% Discuss the Distributed State Machine approach, ABCI interface, and native execution.
+\begin{tabularx}{\linewidth}{
+  >{\raggedright\arraybackslash}p{8.1cm}
+  >{\centering\arraybackslash}X
+  >{\centering\arraybackslash}X
+}
+\toprule
+\textbf{Property} & \textbf{Quorum (IBFT/QBFT)} & \textbf{CometBFT (ABCI)} \\
+\midrule
 
-\section{Architectural Comparison}
-\label{sec:req_comparison}
-% Synthesize the mismatch/match of both technologies against the SPS requirements.
+\rowcolor{reqc}
+\multicolumn{3}{l}{\textbf{Required}} \\
+BFT consensus with finality     & \yes{Native}    & \yes{Native} \\
+Permissioned static membership  & \yes{Native}    & \partialmark{Programmable} \\
+Transaction signing             & \yes{Native}    & \yes{Native} \\
+Event-driven block production   & \no{Limited}         & \yes{Native} \\
+
+\rowcolor{desc}
+\multicolumn{3}{l}{\textbf{Desirable}} \\
+In-memory replicated state      & \partialmark{Partial} & \yes{Flexible} \\
+Low and predictable latency     & \partialmark{Fair}    & \yes{Excellent} \\
+Graceful scaling with nodes     & \partialmark{Limited} & \partialmark{Programmable} \\
+Configurable audit immutability & \partialmark{Limited} & \yes{Supported} \\
+Push-based notification         & \partialmark{Native} & \yes{Programmable} \\
+
+\rowcolor{nac}
+\multicolumn{3}{l}{\textbf{Not needed}} \\
+Fixed-interval block production & \no{Present}    & \yes{Absent} \\
+Gas / fee mechanisms            & \no{Present}    & \yes{Absent} \\
+Token incentives                & \no{Inherited}  & \yes{Absent} \\
+PoW / PoS                       & \no{Inherited}  & \yes{Absent} \\
+Dynamic peer discovery          & \no{Present}    & \yes{Absent} \\
+General-purpose VM              & \no{Present}    & \yes{Absent} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Alignment lens and scope}
+The comparison is requirement-driven rather than feature-driven. It does not reward a platform for offering additional services, such as token economy, unless those services directly improve the SPS manager's correctness, latency, or operational resilience. This is a deliberate lens: if a feature is not needed by the SPS manager, then its \emph{best} contribution is to be absent, because any additional subsystem increases configuration complexity or waste computational power also risking to create new failure modes or attack vectors that must be secured.
+
+We also separate \emph{native} alignment (a property provided by the platform itself) from \emph{programmable} alignment (a property that can be implemented in the application layer). In SPS, programmable alignment can be acceptable, but only when the implementation effort is justified by measurable benefits such as lower latency, reduced attack surface, or greater determinism. This distinction is crucial when comparing a full-stack platform like Quorum with a consensus engine like CometBFT that intentionally pushes application logic to the developer, it is notable to remark that higher deegrees of freedom come with a responsibility shift on the developer implementing the system.
+\section{SPS Required Properties}
+
+\subsection{BFT consensus with deterministic finality}
+Quorum satisfies this requirement through IBFT and QBFT. Both protocols require a super-majority of validators (at least $2/3$) to sign each block, blocks are final and do not fork, and the system cannot progress if more than one third of validators are offline or Byzantine~\cite{QBFTCons90:online, moniz2020istanbul}. This behavior fits the SPS manager's safety needs because it provides a single authoritative state even under partial compromise.
+
+CometBFT was explicitly designed to provide Byzantine fault-tolerant state machine replication with deterministic finality~\cite{buchman2018latest, cometbft}. It offers the same safety guarantees as IBFT/QBFT in terms of tolerating up to $f$ Byzantine validators in a set of $3f+1$. The key difference is where the application logic lives: Quorum merges consensus and application in an Ethereum Virtual Machine (EVM), while CometBFT keeps consensus separate and exposes application logic through ABCI (Application BlockChain Interface) and keep the consensus a black box to the application. For SPS, both satisfy the main constraint of BFT, but CometBFT achieves it with less embedded application machinery, reducing drastically the overhead introduced to compute a whole EVM virtualization.
+
+\subsection{Permissioned static membership}
+The SPS trust boundary is fixed, new membership require a reconfiguration of the system, so validator membership should be permissioned and only change under explicit governance. Quorum supports this natively through validator set management in IBFT and QBFT. Validators are approved accounts, and membership can be changed through voting, either by JSON-RPC methods or via a governance smart contract~\cite{QBFTCons90:online}. This closely matches the requirement, but the contract-based approach introduces additional on-chain logic that must itself be secured.
+
+CometBFT does not include a built-in permissioning layer. Membership is defined in the genesis configuration and can be updated by the application through ABCI. This means static membership can be enforced as a policy in the application logic, which is adequate for SPS but requires additional engineering. The trade-off is clear: Quorum delivers the feature out of the box, while CometBFT makes the designer explicitly encode the governance rules that fit the SPS deployment.
+
+\subsection{Transaction signing and accountability}
+Transaction signing is a native property of the Ethereum lineage on which Quorum is built, every transaction carries a signature and is authenticated by the consensus layer. For the SPS manager, this provides accountability for IDS nodes and actuators, enabling non-repudiation and forensic auditing.
+
+In CometBFT, transaction validation is explicitly delegated to the application through ABCI. The standard pipeline calls \texttt{CheckTx} for mempool admission and later \texttt{ProcessProposal} or \texttt{FinalizeBlock} for deterministic execution, and these hooks are the natural place to verify signatures and enforce authorization policies~\cite{abciOverview}. This yields the same functional property as in Quorum, but the responsibility for signature schemes and key management is pushed to the application.
+
+\subsection{Event-driven block production}
+Alert traffic in SPS is sparse and bursty due to the nature of cyber-attacks, which makes fixed-interval block production a poor fit. Quorum's QBFT configuration uses a block period timer (\texttt{blockperiodseconds}) that triggers proposal attempts at a minimum fixed interval~\cite{QBFTCons90:online}. This keeps consensus active even under idle conditions and introduces a baseline delay between detection and commitment that is independent of application complexity, this is acceptable but not ideal.
+
+CometBFT allows disabling empty block creation through configuration, effectively enabling blocks only when transactions exist~\cite{cometbftConfig}. This matches the SPS requirement for event-driven progression: the system can remain quiescent without consuming consensus cycles, and when an alert arrives it can be committed without waiting for the next periodic block. In requirement alignment terms, CometBFT is closer to the desired behavior and can be tuned to minimize idle overhead.
+
+\section{Desirable properties: efficiency and responsiveness}
+
+\subsection{Execution model and deterministic state transitions}
+Quorum inherits the Ethereum execution model. Transactions are RLP-encoded, executed in the EVM, and charged gas at instruction granularity~\cite{buterin2013ethereum}. Even in permissioned deployments where fees are irrelevant, the EVM still enforces gas accounting and executes bytecode in a general-purpose virtual machine. The SPS response logic is a small deterministic automaton, it uses only a narrow subset of EVM's instrumentation while paying the full runtime cost and complexity of a general-purpose environment.
+
+CometBFT actuates the execution through ABCI, allowing the SPS state machine to be implemented in a native language such as Go or Rust. This eliminates bytecode interpretation and gas accounting overhead, and it makes the runtime cost of a state transition proportional to its intrinsic logic rather than to virtual machine scaffolding. ABCI also imposes strict determinism requirements on several handlers (for example, \texttt{ProcessProposal} must be deterministic)~\cite{abciOverview}. This constraint is compatible with SPS, which already requires deterministic logic, but it places additional discipline on the implementation to avoid non-deterministic libraries, wall-clock time, or concurrency races that would diverge across replicas.
+
+\subsection{State storage and in-memory replication}
+The SPS state is small and stable, which makes in-memory replication attractive. Quorum, as an Ethereum client, persists its state in a database optimized for large smart-contract state and historical storage. This persistence is beneficial for general-purpose applications, but in SPS it adds I/O overhead and enlarges the system's storage footprint without clear benefit, especially when the response logic only needs the current state and short-term history.
+
+CometBFT separates consensus from application state, so the application is free to choose storage strategies. The core node still persists its consensus metadata and block store, but the application can keep its own replicated state in memory and persist only what is operationally required. This flexibility aligns with the desirable requirement for in-memory state and opens the possibility of deployement on resource-constrained systems, allowing to estimate in advance the required hardware resources.
+
+
+\subsection{Latency predictability at low load}
+SPS effectiveness depends on short and predictable response time. In Quorum, two mechanisms contribute to baseline latency: the fixed block period and the EVM execution overhead. Even when only a single alert transaction is submitted, the transaction must wait for the next block proposal window, consensus then proceeds, and the state transition executes in the EVM with gas metering.
+
+In CometBFT, latency is dominated by the consensus round and the application execution time. When empty blocks are disabled, the first transaction can be proposed immediately without waiting for a periodic timer, also CometBFT offer a wide range of time constraints that approriately choose can offer a lower and more stable response time guaranteeing the consensus within an estimated time window. For a small validator set, the BFT round completes quickly, and the native application logic executes with minimal overhead.
+
+
+\subsection{Burst handling and Timeouts customization}
+SPS workloads are not only sparse but also bursty: coordinated attacks can trigger multiple IDS alerts in a short window, and a robust system must absorb these bursts without collapsing into unbounded latency. In Quorum, the fixed blockperiod provides a stable clock to the system, but also provide a bound on how quickly the system can process the ledger's data. When alerts arrive faster than blocks can be proposed, transactions stacks in the pool and are executed in subsequent blocks, increasing delay.
+
+CometBFT exposes more opportunities for customization and filtering at the application level. Because \texttt{CheckTx} is invoked before a transaction enters the mempool, an SPS application can reject duplicates, apply rate limits, or enforce priority rules based on IDS provenance and severity~\cite{abciOverview}. This capability does not eliminate the fundamental consensus bottleneck, but it allows the designer to push the protocol's internal timeouts at the minimum required by the implementation and the hardware, to process without waiting extra-time. Such application-level control is aligned with the SPS requirement for bounded latency under attack conditions, even though it requires explicit policy design.
+
+\subsection{On The Validator Graceful Scalability}
+BFT consensus protocols exhibit $O(n^2)$ communication in the voting phase, which limits scalability as the validator set grows~\cite{wang2022bft}. Quorum's IBFT/QBFT adheres to this pattern: validators exchange prepare and commit messages with all others, and the protocol stalls if more than one third of validators are offline. In SPS a low number of validator is acceptable but in larger production system it could be usefull to gracefully scale to a slightly larger amount of nodes to provide relyability
+
+The scalability problem is part of a broader trade-off among decentralization, security, and performance that appears in many blockchain designs ~\cite{monte2020scaling}. SPS deployments typically prioritize security and availability over large-scale decentralization, which makes small validator sets acceptable. However, even within this constrained regime, the system should degrade gracefully as additional validators are added for resilience. Quorum's protocol does not change its message complexity as the validator set grows, so communication cost increases quadratically with each added node.
+
+CometBFT uses gossip dissemination to broadcast proposals and transactions, which reduces the leader's broadcast burden and can lower propagation latency compared to direct full-mesh dissemination~\cite{buchman2018latest}. However, the final voting phase still requires super-majority signatures, and the $O(n^2)$ full-mesh communication remains. In requirement terms, neither platform offers a built-in path to graceful scaling with large validator sets but CometBFT does better in terms of propagation and also offer light nodes member configuration that unload weight from validators to an associate single full-node in charge of communicating with its light nodes, effectively resulting in a semi-hierarchy that can in some use-cases reduce scaling introduced overhead.
+
+\subsection{Configurable audit immutability}
+Auditability is useful for forensic analysis, but in SPS it is not always necessary to retain complete transaction history indefinitely. Quorum, following Ethereum's model, is optimized for immutable ledger history and full archival state, which is consistent with public-blockchain assumptions but potentially excessive for closed, resource-constrained SPS deployments.
+
+CometBFT's separation of concerns enables a more flexible policy: the application can decide which events must be recorded, which can be summarized, and which can be discarded after a retention window. This does not weaken consensus safety, but it does require explicit design to ensure that the retained data still supports accountability and audit obligations. From an alignment perspective, CometBFT better supports configurable immutability because it does not assume a fixed archival model.
+
+\subsection{Push-based notifications}
+SPS actuators benefit from push-based notification, since polling introduces additional latency. Quorum supports event logs and client subscriptions through the Ethereum API, which can be used to trigger actuation when the smart contract emits a state-change event. This capability is mature and widely supported in Ethereum tooling.
+
+In CometBFT, events can be emitted by the application during block finalization and consumed by clients through the node's RPC event subscription mechanism. As expected this requires explicit wiring in the application layer, it gives the SPS designer control over the semantics and granularity of notifications but also require the functionality to be correctly implemented. Both platforms can support push-based actuation, Quorum's maturity can be usefull in this case but CometBFT doesn't lack of this feature.
+
+\section{Alignment with the SPS control loop}
+Self-protecting systems are commonly framed as a control loop (e.g., Monitor, Analyze, Plan, Execute as seen before) operating on a shared knowledge base~\cite{kephart2003vision, yuan2014systematic}. The blockchain layer, in this context, act as the coordination substrate of that loop.
+
+The SPS manager's internal state is a compact representation of monitored variables and response states, which can be modeled as a finite-state machine~\cite{iannucci2018model}. Quorum allows this logic to be expressed in Solidity, however, the EVM representation tends to be more verbose than the conceptual model, and the state machine structure is often obscured by contract bookkeeping, gas accounting, and event emission. CometBFT permits the same state machine to be implemented as a direct data structure with explicit transitions, which makes the state logic more transparent and easier to map to the formal model used during SPS design.
+
+The MAPE-K perspective also highlights how knowledge updates should be triggered. In an SPS, the knowledge base is reflected in the detection and response logic and should be aligned with the organization implementing the system's requirements. Quorum's periodic block production effectively introduces a time-based update cadence even when no new evidence exists, whereas CometBFT can be configured to update the shared state only when new evidence appears. This difference does not change correctness, but it affects how tightly the blockchain layer is coupled to the semantics of monitoring and analysis, and therefore how cleanly the SPS control loop can be interpreted.
+
+The voting rules that protect against compromised IDSs can be placed in different phases of the transaction pipeline. In Quorum, the typical implementation encodes those rules inside the smart contract, so every alert travels through consensus before being filtered. This preserves a complete audit trail, but it also increases the volume of consensus traffic and imposes EVM execution overhead also for inputs that will ultimately be discarded. In CometBFT, the ABCI interface allows preliminary checks in \texttt{CheckTx} and proposal-level validation in \texttt{ProcessProposal} before finalization~\cite{abciOverview}. This enables the designer to reject redundant or malformed alerts early while still preserving deterministic behavior, which aligns with the requirement for low-latency actuation in the presence of noisy sensors.
+
+
+\section{Non-required features and attack surface}
+Several features inherited by Quorum are classified as not needed in the requirement analysis. Most notably, Quorum retains the EVM and gas accounting, which are essential for public Ethereum but unnecessary for an SPS Autonomic Manager. These features do not merely sit idle or disabled, they increase runtime overhead and enlarge the trusted computing base. They also expose the SPS logic to known smart-contract vulnerability classes, such as reentrancy, integer overflow patterns, and access-control errors documented in surveys of Ethereum contract vulnerabilities~\cite{atzei2017survey, kushwaha2022systematic}.
+
+CometBFT avoids these inherited features by design. It provides consensus, networking, and a minimal transaction processing pipeline, and it leaves economic incentives, virtual machines, and other overlays to the application. This absence of non-required functionality is in the SPS context a form of alignment, because it keeps the coordination layer narrow and reduces the amount of code that must be trusted or read to make aligned security decisions.
+
+\section{Security and assurance implications}
+The SPS manager is a critical component: errors in its logic can lead to false positives, missed attacks, or unsafe countermeasures. When implemented as a smart contract in Quorum, the response logic inherits the risk profile of Ethereum contracts. Extensive analyses show that subtle bugs in contract logic are common and can lead to serious vulnerabilities~\cite{atzei2017survey, kushwaha2022systematic}. Formal verification and defensive coding can mitigate this, but they require specialized expertise and still operate within the constraints of the EVM model.
+
+ The SPS coordinator is an critical component that should produce evidence about its own decisions. Quorum's smart-contract model can expose such evidence through immutable logs, yet the opacity of the EVM actions and the complexity of contract execution can make it difficult to relate that evidence to the high-level SPS. A verifier must reason about the intended state machine but also about EVM execution semantics, gas limits, and compiler effects artificially increasing the difficulty of interpreheting the state of the system.
+
+CometBFT enables the same logic to be implemented as native code, where conventional software engineering techniques, static analysis tools, and language-level safety guarantees can be applied. This does not eliminate risk, but it avoids EVM-specific pitfalls and makes it easier to integrate the SPS logic with existing, well-tested security libraries. application code must be deterministic across replicas, or else consensus will diverge.
+
+Another scope that suffer of the same problem is validator management, Quorum's on-chain validator management means that manager decisions are themselves encoded in contracts, which become part of the trusted base. If the contract is flawed or if validator key management is weak, the system's trust boundary can be altered by an attacker. In CometBFT, validator governance is an application policy, this allows integration with existing organizational controls (for example, manual enrollment, hardware-backed keys, or external approval workflows), but it also requires a careful design to ensure that membership changes are auditable and resistant to compromise.
+
+\section{Failure modes, recovery, and liveness}
+Both Quorum and CometBFT are BFT protocols and therefore inherit the classical liveness constraint: if more than one third of validators are Byzantine or offline, consensus stalls. 
+
+The GoQuorum documentation makes this explicit for QBFT/IBFT and highlights that block production stops when the threshold is exceeded~\cite{QBFTCons90:online}.
+
+{cometbftConfig} is more compatible with an alert-driven workload because consensus activity becomes a clearer indicator of meaningful events, and idle periods are to be considered normal.
+
+As already stated before timeout behavior further differentiates alignment with SPS latency requirements. In QBFT/IBFT, the protocol advances through rounds with a configurable \texttt{requesttimeoutseconds} value and doubles that timeout on consecutive failures, which increases reaction time under partial failure~\cite{QBFTCons90:online}. This backoff is appropriate but can increase delay if chosen incoherently in terms of hardware speed with the specification of the system implementing it. CometBFT follows a similar round-based structure but exposes more control at the application and configuration level, allowing to tune timeouts to the expected alert profile and network conditions.
+
+Recovery behavior depends on how quickly a node can rejoin and reconstruct the shared state. Quorum's full-history model is conservative and strongly consistent, this means that it tends to require more data transfer to resynchronize a new or recovering validator. CometBFT allows the application to define snapshotting or compact state representations as minimal as the designer needs. This trade-off mirrors the overall alignment pattern: Quorum offers stronger defaults but heavier operational cost, while CometBFT offers flexibility at the implementer's cost.
+
+\section{Final Considerations}
+As seen in this chapter both the technologies explored in the comparison are a viable choice when building an SPS's autonomic manager since both satisfy all the required properties to implement the system, however since this is an uncommon implementation of a blockchain system, CometBFT's malleability in choosing which specific feature is needed and which not make it fit better in our use-case, and possibly result in better performances

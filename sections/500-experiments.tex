@@ -1,0 +1,109 @@
+\section{Experimental Quorum vs.\ CometBFT Comparison}\label{sec:experiments}
+This section presents an experimental comparison between Quorum and CometBFT. To make the comparison, we considered an SPS implementing the architecture depicted in Figure~\ref{fig:architecture} and we measured the performance of this system switching between Quorum and CometBFT as the underlying blockchain technology. From this point onward, we refer to Quorum as GoQuorum, as the discussion moves to implementation details and GoQuorum represents the Go-based extension of the original Quorum platform within the broader Quorum ecosystem.
+
+\subsection{Implementation}
+The prototype, publicly available at~\cite{repo}, was designed with architectural realism in mind. Each logical component is deployed as an isolated container, interconnected through network segments that replicate the addressing schemes and trust boundaries of a real-world deployment. Figure~\ref{fig:setting} shows a topology, which we emulated in Kathara~\cite{bonofiglio2018kathara, kathara} on top of Docker, that consists of three main components: an untrusted external zone where the attacker is, the managed system hosting the attack target, and the management system, which includes one actuator, three different IDSs, and several nodes that realize a blockchain that collects IDS-generated transactions and computes responses for the actuator.
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.6\textwidth, clip]{figures/schema.pdf}
+  \caption{The prototype topology, emulated in Kathara.}
+  \label{fig:setting}
+\end{figure}
+
+The attack target is OWASP Juice Shop~\cite{owaspjuiceshop}, a deliberately vulnerable web application widely adopted in security research for this class of experiments. A gateway node forwards a copy of all inbound traffic to three different IDS engines: Snort~\cite{SnortNet73:online}, Suricata~\cite{HomeSuri49:online}, and Zeek~\cite{TheZeekN26:online}, each running in promiscuous mode performing a signature-based attack detection on the sniffed traffic. Upon detection, each IDS forwards an alert to its dedicated blockchain node (i.e., $Node_{M1}$, $Node_{M2}$, $Node_{M3}$) which submits it as a signed transaction to the smart contract governing the system state kept by the blockchain. Once a qualified majority of validators (2/3) reaches consensus and an actuation event is emitted, the monitoring node intercepts it and dispatches the mitigation payload to the Actuator, which enforces the countermeasure on the target via SSH. To validate the theoretical discussion above, we replicated the experiments across the two systems considered in our comparison, namely GoQuorum and CometBFT. The two evaluated configurations are architecturally identical and differ only in the blockchain layer. 
+
+In the GoQuorum setup, four non-validating nodes are deployed: three serve as IDS-facing gateways (i.e., $Node_{M1}$,  $Node_{M2}$, $Node_{M3}$), while one acts as the actuation monitor (i.e. $Node_{A1}$). In addition, three QBFT validator nodes are responsible for consensus (i.e., $Validator_{V1}$,  $Validator_{V2}$, $Validator_{V3}$). In the CometBFT setup, these components are replaced by light nodes (i.e., $Node_{M1}$,  $Node_{M2}$, $Node_{M3}$, $Node_{A1}$) while three full nodes operate as validators under the CometBFT consensus protocol (i.e., $Validator_{V1}$,  $Validator_{V2}$, $Validator_{V3}$).
+
+It should be noted that the two configurations are not entirely symmetric: GoQuorum provides permissioned static membership and push-based notifications natively, while in the CometBFT prototype these features are either simplified or delegated to the application layer. This asymmetry is intentional: the experimental evaluation targets the intrinsic overhead of the consensus and execution layers in isolation, which represents the core architectural difference motivating this comparison. Features marked as Programmable in Table \ref{tab:comparison} are left for future work, as discussed in Section \ref{sec:conclusions}.
+
+% In GoQuorum we set the block time to the minimum possible (1 second). In CometBFT we activated the option....
+
+We further observed that recording every IDS alert as an individual on-chain transaction may introduce unnecessary overhead, as multiple temporally adjacent alerts of the same attack type can often be captured by a single state transition. To address this, we implemented a \textit{deduplication mechanism} within the custom API interface of the member and light nodes. This mechanism serves as a middleware layer that filters incoming IDS alerts, rejecting repetitive notifications for an attack category if the requested state change has already been recorded in the current interval. 
+Specifically, the interface maintains a local cache of the last submitted state and utilizes a background worker to consolidate unique alerts into a single transaction every blocktime (custom time interval for CometBFT). For instance, during a high-volume DDoS attack, where hundreds of consecutive alerts may be triggered for the same category, only the initial state change per interval is propagated to the ledger. This architectural optimization significantly reduces on-chain transaction load and prevents mempool saturation while preserving the amount of information recorded.
+
+\subsection{Experimental Setup}
+All performance tests were conducted on a dedicated machine running Ubuntu 24.04, equipped with an AMD EPYC 9354P processor and 192~GB of RAM. Throughout the experimental trials, hardware resource consumption was monitored via \texttt{top}: CPU utilization was always below $20\%$. For both tested implementations, the deployment of the containers demanded approximately 10~GB of RAM without significant usage variation. 
+
+
+\subsection{Objectives and Results}
+To evaluate the performance, scalability, and resource efficiency of the proposed architecture, we conducted a series of automated experiments measuring end-to-end latency, sustained transaction throughput, and on-chain transaction load under controlled attack conditions. The experimental setup emulates concurrent attacks against the target web application using a fire-and-forget strategy from the attacker container, thereby triggering the IDS engines to generate actionable alerts. The evaluation addresses the following research questions:
+
+\begin{enumerate}[label=Q\arabic*., ref=Q\arabic*]
+    \item\label{que:latency} \textit{What end-to-end latency does the SPS introduce under low traffic conditions?}
+    \item\label{que:throughput} \textit{What transaction throughput can the SPS sustain under increasing input load?}
+    \item\label{que:resources} \textit{How does the deduplication mechanism reduce on-chain transaction load as the volume of a specific attack increases?}
+\end{enumerate}
+
+% We replied to~\ref{que:latency} and~\ref{que:throughput} comparing performances when using  GoQuorum and when using CometBFT.
+
+We addressed Questions~\ref{que:latency} and~\ref{que:throughput} by comparing the performance of the system when using GoQuorum and CometBFT. In contrast, for Question~\ref{que:resources}, we focused only on CometBFT, since the transaction volume is low and both blockchain layers exhibit equivalent behavior under these conditions
+
+\subsubsection{Q1: What end-to-end latency does the SPS introduce under low traffic conditions?}
+To quantify the latency introduced by the whole SPS execution chain, we measured the end-to-end response time under low traffic conditions by injecting isolated alerts and repeating the experiment 100 times for each blockchain technology. This configuration measures the baseline responsiveness of the system in the absence of sustained attack traffic or transaction bursts. For each run, latency was computed as the time elapsed between the detection timestamp recorded by the first IDS that generated the alert and the timestamp at which the countermeasure was executed via SSH on the \texttt{juice\_shop} target.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{charts/Response_Time.pdf}
+  \caption{Distribution of end-to-end response times in seconds under low traffic conditions for CometBFT and GoQuorum.}
+  \label{fig:boxplot}
+\end{figure}
+
+Figure~\ref{fig:boxplot} compares the distribution of end-to-end response times for the two blockchain configurations. The x-axis reports the evaluated technologies and the mean response time during the experiment, while the y-axis reports the measured response time in seconds. For each configuration, the box spans the interquartile range, the central line marks the median, and the whiskers represent the spread of the observations. The mean response time is also reported below each configuration label.
+
+Results show a clear separation between the two configurations. CometBFT achieves substantially lower response times than GoQuorum, with a mean latency of $0.1727s$ versus $2.3221s$. In addition, CometBFT exhibits a narrower interquartile range and a smaller overall spread, which indicates more stable response times across runs. By contrast, GoQuorum shows both higher latency and greater variability. The experiment shows that, under low traffic conditions, CometBFT performs better, achieving an average response time about thirteen times lower than GoQuorum, this suggests that the underlying CometBFT technology is lighter and more effective in supporting the requirements of the proposed SPS architecture.
+
+\subsubsection{Q2: What transaction throughput can the SPS sustain under increasing input load?}
+To evaluate the maximum throughput sustainable by the SPS, we progressively increased the input load by submitting transaction bursts ranging from $10^2$ to $10^5$ transactions, using up to 200 parallel threads. For each run, we measured: (1) the number of transactions successfully committed to the blockchain, and (2) the elapsed time between the transmission of the first packet and the commitment of the last transaction. The objective was to assess the transaction-processing capacity of the two blockchain technologies under increasing load, and to identify both their throughput limits and the onset of performance degradation. In this setting, transactions were deliberately forwarded to expose the underlying ledger to progressively larger transaction volumes. For each load level, throughput was computed as the ratio between committed transactions and burst completion time.
+
+\begin{figure}[!h]
+    \centering
+
+    \begin{subfigure}[t]{0.7\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{charts/comparison_transactions.pdf}
+        \caption{Number of on-chain processed transactions.}
+        \label{fig:comparison_transactions}
+    \end{subfigure}
+
+    \vspace{0.3cm}
+
+    \begin{subfigure}[t]{0.7\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{charts/comparison_latency.pdf}
+        \caption{Processing latency.}
+        \label{fig:comparison_latency}
+    \end{subfigure}
+
+    \caption{Comparison between the two blockchain configurations under increasing transaction load.}
+    \label{fig:comparison}
+\end{figure}
+
+Figure~\ref{fig:comparison} summarizes the results from two complementary perspectives. Figure~\ref{fig:comparison_transactions} reports, for each input burst, the number of transactions successfully committed on-chain and the corresponding throughput. Figure~\ref{fig:comparison_latency} reports the time required to complete each burst.
+
+The results show a marked divergence between the two configurations. CometBFT scales effectively under increasing load: the number of committed transactions grows consistently with burst size, and throughput rises from a few hundred TPS at low load to a peak of approximately $2.5\,\mathrm{k}$ TPS at higher load levels, without any transaction loss. At the same time, latency increases from seconds to tens of seconds, reaching $63.75\,\mathrm{s}$ when submitting $100\,\mathrm{K}$ transactions.
+
+By contrast, GoQuorum exhibits substantially weaker scalability. Throughput improves only under moderate load, peaking at approximately $275$ TPS for bursts of $20\,\mathrm{K}$ transactions, while latency increases sharply from seconds to several minutes. At higher loads ($>10\,\mathrm{K}$ transactions), throughput collapses, with only $10\%$ of submitted transactions successfully executed.
+
+Overall, the results indicate that CometBFT better supports the SPS architecture, achieving higher throughput and lower delay across all tested loads. Moreover, CometBFT successfully executes all submitted transactions, demonstrating greater reliability than GoQuorum.
+
+\subsubsection{Q3: How does the \textit{deduplication mechanism} reduce on-chain transaction load as the volume of a specific attack increases?}
+Whereas Q2 stresses the blockchain layer by increasing the number of submitted transactions, Q3 evaluates the effect of the proposed \textit{deduplication mechanism} on the number of transactions that actually reach the ledger. To this end, we monitored the full processing pipeline while progressively increasing the attack volume under otherwise identical conditions. Like Q2, each run consists of sending different attacks at increasing scale but introducing a deduplication mechanism to suppress redundant alerts before they are recorded on-chain.
+
+For each experiment, we tracked four quantities: the number of malicious payloads sent by the attacker (as Sent), the number of alerts detected by the most virtuous IDS (as Detected), the sum of all the alerts received on the blockchain (as Ingress), and the number of transactions finally submitted to the blockchain (as Transactions).
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{charts/SPS_comparison.pdf}
+  \caption{Evolution of SPS processing metrics under increasing input load measured in attacks sent from the attacker machine, showing sent payloads, detected alerts, blockchain's total ingress traffic from the IDSs, and finalized blockchain transactions. Results are reported for the CometBFT configuration. Both axes are shown in logarithmic scale.}
+  \label{fig:sps_performance}
+\end{figure}
+
+
+Figure~\ref{fig:sps_performance} is a multi-line plot showing how the main processing metrics evolve as the input load increases. The x-axis reports the input load $N$, while the y-axis reports the magnitude of each monitored metric. Both axes are displayed on a logarithmic scale to allow direct comparison among quantities that differ by several orders of magnitude. The plot reports only the CometBFT configuration, since the number of generated on-chain transactions remains so low that no meaningful differences emerge between the two blockchain technologies with a low number of different attacks.
+
+
+Results show that all the metrics increase approximately proportionally with the input load, indicating that the attack generation and detection stages scale consistently over the explored range. In contrast, the number of blockchain transactions remains constant, even when the input load increases by four orders of magnitude. This behavior confirms the effectiveness of the proposed \textit{deduplication mechanism}, which enables the system to support a larger number of state changes. 
+
+\subsubsection{CPU Consumption}
+During the CometBFT benchmarks (see Figure~\ref{fig:sps_performance} and Figure~\ref{fig:comparison}), user-process CPU utilization fluctuated between $9\%$ and $14\%$. In contrast, GoQuorum exhibited slightly higher CPU consumption, averaging $14\%$ and peaking at $17\%$. We suppose this higher resource usage is a consequence of the higher architectural overhead inherent in Quorum. 

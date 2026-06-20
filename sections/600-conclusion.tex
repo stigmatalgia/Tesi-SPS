@@ -1,0 +1,24 @@
+\section{Conclusions}\label{sec:conclusions}
+In this work, we identified the key requirements for a secure-by-design blockchain-based SPS and mapped them onto two substantially different technologies, namely Quorum and CometBFT. This comparison allowed us to assess how the choice of the blockchain backend affects the ability of the same SPS architecture to satisfy its functional and non-functional requirements. The analysis shows that, although both technologies can support the proposed design, CometBFT provides a better architectural fit for the target scenario and satisfies a broader set of requirements, despite some limitations that remain unaddressed in the current prototype.
+
+To validate these findings, we developed a realistic SPS prototype for the protection of a vulnerable OWASP Juice Shop service and evaluated the same implementation over the two blockchain platforms, modifying only the underlying blockchain layer. This ensured a fair comparison and allowed us to isolate the actual impact of the blockchain technology without altering the SPS logic or the overall system design. The experimental evaluation shows that the CometBFT-based deployment achieves lower latency and sustains higher load, making it more suitable for security scenarios in which timely reaction and efficient alert handling are critical.
+
+Overall, the results indicate that the choice of the blockchain backend plays a decisive role in the practical effectiveness of blockchain-based SPSs. In particular, they suggest that distributed state machine approaches such as CometBFT constitute a more promising foundation than traditional blockchain platforms for this class of systems. Future work will focus on refining the implementation through the flexibility offered by the ABCI interface, validating the approach in more realistic attack-and-defense scenarios, and extending the evaluation with larger scalability experiments.
+
+% 1. delineato i requisiti necessari per impelmentare un secure by desingn sps basasto su blockchain
+% 2. mappato i requisit su due specifiche tecnologie blockchain molto divere tra loro, una tecnologia blockchain tradizionale (quorum) e su una distributed State machine (Comet BFT).
+% 3. abbiamo discusso l'impatto della secleta di ognuna delle due alternative, evidenziando come Comet BFt soddisfi il maggior numero di requisiti con alcune limitazioni ancora non supportate.
+% 4. abbiamo sviluppato un prototipo realistico, dove il maneged system è un servizion vulnerabile (juice shop) per entrambe le implementazioni. % 5. Abbiamo effettuato degli esperimenti che mostrano come l'implementazione basata su comet abbia performance migliori in termini di latenza e carico supportato. 
+
+% Future work
+% 1. Sono possibili miglioramenti implementativi grazie alla flessibilità offerta dal ABCI di comet. 
+% 2. Validare il sistema su un caso d'uso complesso con veri attacchi e vere difese. 
+% 3. Esperimenti di scalabilità per verificare i limiti del sistema. 
+
+
+
+% puntiamo sulla latenza
+% descriviamo l'archittettura di comet sub-ottima con EVM (il troughput peggiora)
+% Descriviamo l'architettura ottimale con eventuali esperimenti
+
+% \bibliographystyle{IEEEtran}

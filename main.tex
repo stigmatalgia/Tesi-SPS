@@ -6,6 +6,10 @@
 \usepackage{newpxtext,newpxmath}
 \usepackage{microtype} 
 \usepackage{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{colortbl}
 
 % --- PACCHETTI STANDARD ---
 \usepackage{graphicx}
@@ -27,6 +31,13 @@
 \addbibresource{References.bib}
 
 \definecolor{chapgray}{gray}{0.4} % Grigio elegante per il numero del capitolo
+\definecolor{reqc}{RGB}{223,240,216}
+\definecolor{desc}{RGB}{252,248,227}
+\definecolor{nac}{RGB}{242,222,222}
+
+\newcommand{\yes}[1]{#1}
+\newcommand{\no}[1]{#1}
+\newcommand{\partialmark}[1]{#1}
 
 \titleformat{\chapter}[display]
   {\normalfont\bfseries} % Formato generale

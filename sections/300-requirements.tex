@@ -1,0 +1,67 @@
+\section{Reasoned Requirements for a Blockchain Technology in the Context of a Cyber Resilient Self-Protecting System}\label{sec:requirements}
+
+\begin{table}
+\centering
+\small
+\caption{Classification of blockchain properties according to their level of necessity within an SPS application context.}
+\label{tab:blockchain_features}
+\renewcommand{\arraystretch}{1.22}
+\setlength{\tabcolsep}{5pt}
+
+\begin{tabularx}{\linewidth}{
+>{\raggedright\arraybackslash}p{4.3cm}
+X
+}
+\toprule
+\textbf{Property} & \textbf{Motivation} \\
+\midrule
+
+\rowcolor{reqc}
+\multicolumn{2}{l}{\textbf{Required}} \\
+BFT consensus with finality & Tolerates Byzantine faults and commits updates deterministically. \\
+Permissioned static membership & Matches the fixed trust boundary of the deployment. \\
+Transaction signing & Ensures authenticity and accountability of submissions. \\
+Event-driven block production & Fits sparse alert traffic and avoids idle rounds. \\[3pt]
+
+\rowcolor{desc}
+\multicolumn{2}{l}{\textbf{Desirable}} \\
+In-memory replicated state & The shared state is small and can remain memory-resident. \\
+Low and predictable latency & Timely countermeasures require bounded confirmation delay. \\
+Graceful scaling with nodes & Resilience should grow without sharp performance degradation. \\
+Configurable audit immutability & Immutable logging is useful for forensics, but it should be optionally disabled. \\
+Push-based notification & Reduces actuator reaction time after state updates. \\[3pt]
+
+\rowcolor{nac}
+\multicolumn{2}{l}{\textbf{Not needed}} \\
+Fixed-interval block production & Wastes resources during quiescent periods. \\
+Gas / fee mechanisms & Unnecessary in a closed permissioned setting. \\
+Token incentives & Irrelevant with fixed membership and no open participation. \\
+PoW / PoS & Replaced by BFT replication. \\
+Dynamic peer discovery & Adds complexity and attack surface with no clear benefit. \\
+General-purpose VM & Increases the TCB, a constrained deterministic runtime is preferable. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+The requirements in Table~\ref{tab:blockchain_features} follow directly from the role of the blockchain in the proposed architecture. The blockchain is not intended as an open network or as a platform for general-purpose decentralized applications. Its sole functions are (1) to gather from IDSs a shared state, (2) to ensure a reliable functioning of the response logic even in the presence of Byzantine faults and (3) to communicate to the actuators the decisions taken by the response logic. Under this assumption, many features typical of public blockchains, or even of private ones, become irrelevant, while a limited set of properties becomes essential.
+
+The properties classified as \emph{not needed} are those tied to openness and economic regulation. Gas, fees, token incentives, and reward mechanisms serve to control and motivate unknown participants in public systems, but they have no purpose in a permissioned environment with known nodes. These mechanisms should not simply be neutralized: if they remain in the platform, they still add complexity, validation burden, and attack surface. The same applies to proof-of-work, proof-of-stake, dynamic peer discovery, fixed-interval block production, and general-purpose virtual machines. In this setting, membership is fixed, consensus is naturally Byzantine fault tolerant, activity is driven by alerts rather than constant transaction flow, and only a limited deterministic state machine is required. Anything beyond this is unnecessary complexity.
+
+The \emph{desirable} properties are those that improve efficiency without being strictly necessary. Since the shared state is small, in-memory replication is attractive and viable. Low and predictable latency is important because countermeasures must be triggered promptly. The ability to limit or disable transaction history may be an important requirement in certain settings, such as low-cost embedded systems, where maintaining an extensive record may be unnecessary or even undesirable. This is particularly relevant in the context of SPS, despite the fact that blockchain technologies inherently provide an immutable audit trail that can support accountability and forensic analysis. Finally, push-based notifications can further reduce reaction time.  % OK pizzo: \todo{Simone: può andare scritta così?}
+
+% Regarding optional properties, we note that while immutable audit trail is a feature that blockchain technologies intrinsically provide. However, in SPS it is not clear if a large history of transactions is always needed and desirable. The possibility to reduce or switch off this feature might turn out to be important in certain systems (e.g., low cost embedded systems).
+
+The \emph{required} properties are few and clear: Byzantine fault-tolerant consensus with strong finality, static permissioned membership, cryptographic transaction signing, and event-driven block production. Together, these properties ensure that the system maintains a single authoritative state, authenticates all actions, and progresses according to alerts and monitored-state changes rather than periodic timing.
+
+Overall, Table~\ref{tab:blockchain_features} shows that the relevant blockchain properties in this domain are not openness, tokenization, or generic programmability, but minimality, determinism, and Byzantine resilience.
+
+One can argue whether regular blockchain technologies fit our needs. The answer is yes, but only partially.
+Regarding required properties, the only one that is not common is ``event-driven block production'' (e.g., not supported by Quorum but supported by Fabric).
+Regarding desired properties, permissioned blockchains tend to favor low latency and high throughput over other features, 
+but they also tend to maintain the system state in secondary storage, often through an external DBMS, in order to support arbitrarily large state. Although caching mechanisms can mitigate part of the associated cost, this design still introduces non-negligible overhead. Some exceptions do exist. For instance, Iroha v2 provides native in-memory storage without relying on an external DBMS, while CometBFT does not impose a specific storage architecture and can therefore be integrated with an in-memory state implementation
+
+Scalability is a more critical point. The BFT family of consensus algorithms has high $O(n^2)$ communication complexity (with $n$ being the number of nodes that participate in the consensus).
+For this reason, they are normally used with a small number of nodes.
+To address this issue, some permissionless blockchain systems adopt committee-based techniques. In particular, Algorand and Ethereum, after the introduction of Casper FFG, rely on the random selection of a small subset of nodes to participate in each consensus round. This approach reduces the number of effective participants per round, thereby improving efficiency, while statistically preserving security guarantees comparable to those obtained when all nodes are involved.
+While a similar argument can be made for permissioned blockchains, to the best of our knowledge this approach is not adopted by any of the commonly used permissioned blockchain technologies. One exception is Algorand itself, which is sometimes used in permissioned settings, but it brings with it a number of properties that we classified as non-needed.
