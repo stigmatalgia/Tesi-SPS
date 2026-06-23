@@ -1,25 +1,136 @@
 % ==============================================================================
-% CHAPTER 5: EXPERIMENTS AND RESULTS
+% CHAPTER 5: IMPLEMENTATION DETAILS
 % ==============================================================================
 
-\chapter{Implementation details}
+\chapter{Implementation Details}
 \label{chap:implementation}
-% Combine the prototype implementation details with the performance evaluation.
+
+The previous chapters established, in a technology-agnostic way, the architecture of a blockchain-based Self-Protecting System (SPS) and the requirement-driven rationale for comparing Quorum and CometBFT as its decision substrate. This chapter answers the question that naturally follows: \emph{how is that abstract model actually implemented, and how can we create a fair comparison between them with real attack traffic?}
+
+The prototype we developed ~\cite{repo} is a fully containerized, docker based system in which a real vulnerable web application is protected by three heterogeneous Intrusion Detection Systems (IDSs) coordinated by a permissioned Byzantine Fault-Tolerant (BFT) ledger. The same project can run in two setting, one on GoQuorum (QBFT) and one on CometBFT, so that every non-trivial component is exercised against both backends under identical conditions. The guiding engineering goals are: 
+- structural fidelity to the architecture of Chapter~\ref{chap:sps_architecture} (every container maps to a model role, trust boundaries enforced by network isolation); 
+- backend interchangeability (identical detection and control planes, so that any measured difference is attributable to the consensus substrate); 
+- deterministic decision logic (identical outputs on every honest replica); 
+
+The recurring theme of the chapter is that the two implementations are \emph{semantically equivalent} at the level of the formal state machine of Section~\ref{sec:formal_state_model}, but \emph{structurally different} in how that state machine is hosted, encoded, and scheduled. This divergence is precisely what the empirical evaluation of Chapter~\ref{chap:experiments} will measure.
+
+\section{Emulated Network Topology and Trust Boundaries}
+\label{sec:impl_topology}
+
+The whole system is emulated with Kathará~\cite{kathara}, a lightweight Docker-based network emulator that preserves the full container isolation primitive on which the threat model of Section~\ref{subsec:security_objectives} relies: the container boundary is the primary security perimeter, and there is no shared namespace between the manager and the managed system. The topology is partitioned into six isolated segments, each enforcing a distinct trust boundary (Table~\ref{tab:topology}, conceptually depicted in Figure~\ref{fig:setting}).
+
+\begin{table}[t]
+\centering
+\caption{Network segments of the SPS lab}
+\label{tab:topology}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\linewidth}{
+  >{\raggedright\arraybackslash}p{3.1cm}
+  >{\raggedright\arraybackslash}p{2.5cm}
+  >{\raggedright\arraybackslash}X
+}
+\toprule
+\textbf{Segment} & \textbf{CIDR} & \textbf{Role / Trust boundary} \\
+\midrule
+Untrusted zone & 192.168.1.0/24 & Internet-facing; hosts the attacker only. \\
+DMZ            & 10.0.0.0/24     & Managed system (Juice Shop); untrusted by assumption. \\
+Management nets & 172.16.1--3.0/24 & One per IDS$\leftrightarrow$member/light pair; carries alerts only. \\
+Actuator net   & 172.16.4.0/24   & Carries committed actions to the blind actuator. \\
+Feedback net   & 10.0.100.0/24   & Carries NEGATIVE alerts from the actuator back to the IDSs. \\
+Blockchain net & 10.99.0.0/24    & Validators, member/light nodes and full node; isolated from the DMZ. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+A router container performs NAT between the untrusted zone and the DMZ and, crucially, mirrors all inbound DMZ traffic to the sniffing interfaces of the three IDSs. This mirroring decouples detection from the data path of the application: the IDSs observe a copy of the traffic in promiscuous mode and never interact with the real service, so a compromised IDS cannot affect the availability of the managed system or vice versa. Three properties directly implement the architectural guarantees of Chapter~\ref{chap:sps_architecture}: the blockchain network is physically separate from the DMZ, so an attacker who compromises the Juice Shop has no L2 reachability to any validator or member node and the transaction submission API is not exposed to the managed system, each IDS reaches only its own paired blockchain-facing node over a dedicated management network, so a compromised IDS cannot impersonate another IDS's node and the feedback network is a separate channel through which the actuator, and only the actuator, notifies the IDSs that a mitigation has been applied, enabling the loop to close (Section~\ref{subsec:feedback_closure}).
+
+\section{Component Realization}
+\label{sec:impl_components}
+
+\subsection{Managed System and Detection Plane}
+\label{subsec:impl_managed_ids}
+The managed system is the OWASP Juice Shop~\cite{owaspjuiceshop}, a deliberately vulnerable Node.js application exposed on port 3000. An attacker container in the untrusted zone drives attack traffic through the router. Four canonical web attack classes are detected in this prototype through a fingerprint, each mapped to a distinct bit of the state vector Sql-Injection, Xss, Path Traversal and a Command Injection. The consolidated state $S_t$ is therefore exactly a n-bit vector anticipated in Section~\ref{subsec:replicated_decision_state} where n is the number of mapped attack, so 4 in the implementation.
+
+The detection plane is three independent IDSs: Snort 3, Suricata and Zeek, each in its own container and sniffing the mirrored DMZ traffic. Using three heterogeneous engines allow us to respect a diversity principle: a single engine-specific signature bypass cannot poison our detection (and consequently our response) ability. The engines share the same four signatures but express them through three different rule languages: Snort uses \texttt{alert tcp} rules with \texttt{content} matchers and the \texttt{alert\_fast} plugin mandatory to force per-packet flushing, Suricata uses equivalent \texttt{content}/\texttt{nocase} rules in single-pcap mode, Zeek uses its own signature language with \texttt{payload} regular expressions writing to \texttt{signatures.log}. All three write human-readable alert lines to a log file. A single Python component, \texttt{alert\_forwarder.py}, runs on each IDS, tails the log, matches attack keywords, and forwards a JSON alerts to the paired blockchain-facing node using an in-memory queue with ten worker threads and HTTP keep-alive, batching up to one hundred alerts per request. This uniform forwarder makes the detection plane backend-agnostic: the IDSs are unaware of whether their downstream node is a Quorum member or a CometBFT light node, since both expose the same HTTP API, this network setting was specifically engineered to prevent connections or packet dropping under high loads of traffic.
+
+\subsection{Consensus-and-Decision Plane and the Blind Actuator}
+\label{subsec:impl_consensus_plane}
+
+The consensus-and-decision plane comprises three validators and four blockchain-facing nodes whose \emph{roles} differ between backends while preserving the same functional split. The three \textbf{validators} (\texttt{validator0..2}) and the \textbf{Member3/FullNode0} form the BFT quorum with $N_v=4$ the system tolerates $f_v=\lfloor(4-1)/3\rfloor=1$ Byzantine validators, the minimum meaningful BFT configuration and sufficient to demonstrate the mechanism on a single service. In Quorum the validators are full \texttt{geth} nodes, in CometBFT they run the native \texttt{cometbft node} consensus engine plus an accompanying ABCI application hosting the decision state machine.
+
+The four \textbf{blockchain-facing nodes} are the API gateways of the manager. Members 0-2 are each paired with one IDS over a management network and ingest its alerts,member~3 (Quorum) or \texttt{fullnode0} (CometBFT) is paired with the actuator and forwards committed actions. In Quorum all four are full Ethereum clients (\texttt{geth} without \texttt{--mine}) that maintain a complete chain replica but do not propose blocks, they expose the IDS-facing HTTP API through a Node.js process (\texttt{blockchain\_api.js}) that translates HTTP alerts into signed \texttt{proposeNewValues} transactions. In CometBFT the three IDS-facing nodes are \emph{light nodes}: their \texttt{sps-node} exposes the same HTTP API but submits transactions through CometBFT's \texttt{broadcast\_tx\_async} RPC rather than maintaining a full local replica, and the actuator-facing node is a full node that subscribes to committed events. This match the light/full node distinction of CometBFT/Tendermint and unloads the validators from serving API traffic. Despite the different internals, the HTTP service exposed to the IDSs is intentionally identical: \texttt{POST /alert} accepts a JSON array of $\{$\texttt{ids}, \texttt{type}, \texttt{value}, \texttt{timestamp}$\}$ objects, \texttt{GET /stats}, \texttt{GET /alive}, and \texttt{POST /config/dedup} expose observability and runtime configuration. This service is the seam that makes the two backends interchangeable from the perspective of the detection and control planes.
+
+The \textbf{actuator} is the only component allowed to modify the managed system, and it is by design \emph{blind} (Section~\ref{subsec:blind_actuators}): it never queries the Juice Shop's state and never accepts instructions from anyone except an HTTP \texttt{POST /action} carrying the action string selected by the state machine. The actuator executes that string on the Juice Shop over a pre-shared SSH key:
+
+the actuator holds no application credentials. After execution it appends a timestamped record to \texttt{/var/log/actuator\_actions.log} (which the benchmark harness parses for end-to-end latency, //TODO: Ricordarsi di citare questa parte nel capitolo successivo)// and posts a \texttt{NEGATIVE ALERT} to each IDS over the feedback network to close the recovery loop (Section~\ref{subsec:feedback_closure}).
+
+\section{The Replicated Decision State Machine}
+\label{sec:impl_state_machine}
+
+The decision state machine is the concrete instantiation of $\Sigma_t=\langle S_t, R_t, I_t\rangle$ of Section~\ref{subsec:replicated_decision_state}. It is where the two backends are most directly comparable, because the \emph{logic} is identical while the \emph{substrate} is maximally different. This section describes that logic once, then shows how each backend hosts it.
+
+\subsection{State Representation and the Voting Predicate}
+\label{subsec:impl_state_repr}
+
+The consolidated state $S_t$ is a 4-bit vector in canonical order \texttt{[SQL\_INJECTION, XSS\_ATTACK, PATH\_TRAVERSAL, COMMAND\_INJECTION]}, \texttt{1} means an attack has been confirmed by voting, \texttt{0} means it has not. The response relation $R_t$ is a state--action map from the $2^4-1=15$ non-trivial bit-strings to mitigation commands. Because multiple attacks may be active simultaneously, each base attack maps to an unix-command action and composite states map to the concatenation of the set bits' actions with \texttt{\&\&}. It is keyed by a cryptographic hash of the state string \texttt{keccak256} in the EVM, \texttt{SHA-256} in ABCI Rust, When the consolidated state changes, the machine hashes it and, if a matching entry exists, emits the associated action.
+
+When an agent submits a proposal, a tally is decremented and the new one incremented, if the agent had not voted, it is recorded and the tally incremented. The consolidation predicate then requires the tally for the new value to exceed $\lfloor N_d/2\rfloor$ with $N_d=3$, i.e.\ at least two independent IDSs must agree before the state flips, see the majority threshold $q_j=2$ of Section~\ref{subsec:proposal_semantics}.
+
+\subsection{Quorum Realization: The \texttt{IDS.sol} Smart Contract}
+\label{subsec:impl_quorum_contract}
+
+In Quorum the state machine is a Solidity contract, \texttt{IDS.sol}, compiled with \texttt{solc} and deployed on validators at startup. Each parameter is a \texttt{Parameter\_Status} struct with the current value, per-agent proposed value, per-value vote count, and a \texttt{hasVoted} flag; the agents are the addresses of members 0--2, injected at configuration time by templating the source (Section~\ref{subsec:impl_config_gen}).
+When enough nodes votes reaching the threshold, the contract concatenates the current values, hashes them with \texttt{keccak256}, looks up the action, and emits an \texttt{ActionRequired(address selectedAgent, string actionToApply)} event. The selected agent is \texttt{keccak256 (block.timestamp, block.number) \% agents.length}: this is per block deterministic  because all validators agree on \texttt{block.timestamp} and \texttt{block.number} for the same block, it is important to point out the deterministic nature of used params, since a non-deterministic source would cause replicas to diverge causing the blockchain's reliability to fail.
+
+\subsection{CometBFT Realization: The Rust ABCI Application}
+\label{subsec:impl_cometbft_app}
+
+CometBFT state machine's implementation is a native Rust application, \texttt{sps-node}, which uses the Application BlockChain Interface (ABCI)~\cite{abciOverview}, CometBFT acts purely as the consensus and networking black box: it orders transactions, replicates the block log, and guarantees BFT finality, but knows nothing about IDSs, attacks, or actions. All application semantics live in the application, whose relevant ABCI handlers are: \texttt{CheckTx}, invoked on mempool admission, \texttt{DeliverTx}, invoked in deterministic block order for every committed transaction, which decodes the transaction, applies it to the ledger, and, if the transition triggers an action, publishes it on an in-process broadcast channel.
+
+The transaction payload is a \texttt{VoteTx} struct serialized with \texttt{bincode}, a compact binary codec faster in performances than regular json. the resulting transaction is a few dozen bytes, keeping mempool pressure and block size minimal even under pressure. The action produced is pushed onto a broadcast channel to which the actuator-facing full node subscribes and forwards each \texttt{ActionEvent} to the actuator over HTTP. This in-process eventing is the CometBFT analogue of the Quorum event log and is significantly cheaper because it requires no polling of block history.
+
+\section{The End-to-End Alert Response Loop}
+\label{sec:impl_loop}
+
+This section traces a single alert through the full MAPE-K cycle. The sequence is identical for both backends up to the transaction encoding, which is the intended guarantee of backend interoperability.
 
 
-\section{Experimental Setup and Network Topology}
-\label{sec:exp_setup}
-% Describe the emulated environment (Kathará, Docker, OWASP Juice Shop).m smart contracts, and CometBFT ABCI app.
+\subsection{Alert forwarding.} When an IDS matches a signature it writes a log line, classifies the line into one of the four attack types (or a \texttt{NEGATIVE ALERT} recovery), and enqueues a JSON payload $\{$\texttt{ids}, \texttt{type}, \texttt{value}, \texttt{timestamp}$\}$ with \texttt{value=1} for an attack and \texttt{0} for recovery. Ten worker threads drain the queue in batches of up to one hundred and post each batch to \texttt{http://<member\_ip>:3000/alert} over a persistent connection. Request batching is used for high network stress situation, a single attack packet can trigger an alert on all three IDSs within milliseconds, and a burst can produce thousands of alerts per second, so per-alert HTTP requests could saturate the member node's socket table before consensus becomes the bottleneck.
 
-\section{Rust vs Solidity middleware}
-\label{sec:exp_middleware}
-% Explain the caching mechanism to prevent mempool saturation during high-volume attacks.
+\subsection{From HTTP alert to committed transaction.} The member/light node normalizes the batch into a transaction. In Quorum the Node.js API coalesces it into one \texttt{proposeNewValues} call and enqueues it in a bounded queue drained by concurrent web3 senders with nonce resynchronization (Section~\ref{subsec:impl_quorum_engineering}). In CometBFT the Rust API encodes it into a \texttt{VoteTx}, a background worker submits it through \texttt{broadcast\_tx\_async}. In both cases the transaction enters the mempool, is gossiped, ordered into a block by the BFT protocol, and applied to the state machine where the voting predicate is evaluated.
 
-\section{Alert detection and response loop}
-\label{sec:impl_alert_loop}
-% Explain the caching mechanism to prevent mempool saturation during high-volume attacks.
+\subsection{Event delivery and actuation.} When the consolidated state transitions to a mapped action, an \texttt{ActionRequired} event is emitted. In Quorum this is an EVM log entry. In CometBFT the action is delivered through the in-process \texttt{broadcast} channel with no polling, since it is produced synchronously inside \texttt{DeliverTx}. In both cases the actuator receives the same JSON payload and executes it over SSH
 
-\section{Blockchain config generation}
-\label{sec:impl_config_gen}
-% Explain the caching mechanism to prevent mempool saturation during high-volume attacks.
+\subsection{Feedback and loop closure.}
+\label{subsec:feedback_closure}
+After mitigating, the actuator posts a \texttt{NEGATIVE ALERT} carrying the mitigated attack type to each IDS over the feedback network. A tiny \texttt{ids\_feedback\_server.py} on each IDS appends a \texttt{NEGATIVE ALERT: <type>} line to the very log file that \texttt{alert\_forwarder.py} is tailing; the forwarder interprets it as a recovery proposal with \texttt{value=0} and forwards it. Once two of the three IDSs report recovery, the predicate flips the bit back to \texttt{0}, if the new state no longer maps to any action, no further actuation fires and the loop is closed.
 
+\section{The Deduplication Middleware}
+\label{sec:impl_dedup}
+
+A sustained Cyber attack such as a timed SQL-Injection attempt can produce hundreds of alerts per second, and three heterogeneous IDSs can each emit a matching alert within the same few milliseconds, since a BFT block can takes on the order of second to commit, the mempool would fill with thousands of redundant transactions describing the same transition long before the first one commits, stalling consensus and inflating latency by orders of magnitude. The deduplication middleware prevents this and is a core contribution of the thesis. It is an API-level filter that drops redundant alerts in the same block before the mempool, since those redudant alert would already only be registered as a single response, this filter save us many CPU cycles and prevent indefinitely growing mempool.
+
+\section{Quorum Filter}
+The Quorum API maintains \texttt{lastVotedState} (the value last sent per parameter) and \texttt{batchBuffer} (pending alerts since the last flush). Incoming alerts update the buffer, if the value matches \texttt{lastVotedState} the alert is acknowledged as \texttt{deduplicated} and never reaches the contract. The buffer is flushed into a single \texttt{proposeNewValues} transaction when either a new block is observed. On each confirmed block \texttt{lastVotedState} is reset, so at most one transaction per parameter per block is ever submitted. This block-aligned window is natural for a fixed-interval backend, and a single \texttt{proposeNewValues} call carries all four parameters, amortizing per-transaction overhead.
+
+\section{CometBFT Filter}
+ The CometBFT API similarly to the Quorum's maintains a \texttt{seen\_types} set of attack types already forwarded in the current block. The first alert of a given type, any subsequent one is dropped locally with a \texttt{DEDUP DROP} log, without waiting for BFT confirmation---because the BFT round is slower (($\approx$0,1s)) than the alert inter-arrival time ($\approx$ms), waiting for on-chain confirmation would defeat the purpose.
+
+\section{Backend-Specific settings}
+\label{sec:impl_backend_eng}
+
+\subsection{Quorum: BlockPeriod and Gas Fees}
+GoQuorum inherits the full Ethereum stack, and aligning it with the SPS requirements requires explicitly disabling features that are not needed in a permissioned closed deployment. The genesis sets \texttt{blockperiodseconds=1}. The gas limit is raised to \texttt{0xFFFFFFFFF} and the gas price set to zero on every transaction, neutralizing the gas/fee machinery,this doesn't prevent to waste CPU cycles in it, and also does not remove it from the trusted computing base. \texttt{maxCodeSize} and \texttt{txnSizeLimit} are capped at 256\,KB; the network runs with \texttt{--nodiscover} and a static full-mesh \texttt{permissioned-nodes.json}, disabling dynamic peer discovery. The transaction pool is sized (\texttt{globalslots=250000}) to absorb huge burst at a RAM cost.
+
+
+\subsection{CometBFT: ABCI and Timeouts Tuning}
+\label{subsec:impl_cometbft_engineering}
+
+The CometBFT backend is configured to exploit the event-driven block production identified as a native advantage. The consensus \texttt{config.toml} sets \texttt{create\_empty\_blocks=false} (don't provide a new block without pending transactions) and \texttt{skip\_timeout\_commit=true} (immediate advance to the next round after commit). The propose and vote timeouts are set at (1\,s with 200\,ms deltas) The mempool holds 200\,000 entries with a 256\,KB per-transaction ceiling.
+
+The \texttt{sps-node} binary is built as a statically linked musl target through a multi-stage Docker image, so the runtime container carries only the binary, CometBFT, and a minimal Python runtime for the shared forwarders; no Rust toolchain is needed in the lab. A single binary serves three roles---\texttt{validator}, \texttt{agent} (light), \texttt{fullnode}---selected by \texttt{sps\_config.toml}, and the action forwarder task is spawned only on full nodes and validators. The ABCI server runs on a dedicated OS thread bound to \texttt{127.0.0.1:26658}, while the HTTP API and the submission worker run on the tokio runtime, so consensus-critical decoding never contends with API IO on the same thread.
+
+\subsection{Configuration Generation and SSH Keys}
+\label{subsec:impl_config_gen}
+
+Both backends rely on a Python configuration generator run on the host before the lab starts, so no node ever generates keys or peer lists at runtime. For Quorum, \texttt{generate\_blockchain\_config.py} drives the official \texttt{quorum-genesis-tool} inside a throwaway boot lab to produce keystores, the QBFT genesis, and enode identities, then assembles a full-mesh \texttt{static-nodes.json} with the correct lab IPs by substituting member addresses and the parameter list from \texttt{IDS.sol}. For CometBFT, \texttt{generate\_cometbft\_config.py} derives each node's Tendermint identifier as the first 20 bytes of \texttt{SHA-256(pubkey)}, writes the validator key files, and emits a genesis with the three validators at equal voting power, it also renders the application \texttt{sps\_config.toml} and the tuned CometBFT \texttt{config.toml}. Both generators produce the actuator's Ed25519 SSH keypair once and share it through the lab volume. A small startup handshake ensures deterministic boot ordering: in CometBFT, \texttt{fullnode0} waits for a genesis published by \texttt{validator0} before starting, so all nodes agree on the initial validator set.

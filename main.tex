@@ -23,6 +23,45 @@
 \usepackage{nomencl}
 \usepackage{etoolbox}
 \usepackage{setspace}
+\usepackage{listings}
+
+% --- STILE LISTINGS ---
+\definecolor{lstbg}{RGB}{248,248,248}
+\definecolor{lstkw}{RGB}{30,80,160}
+\definecolor{lstcm}{RGB}{90,130,60}
+\definecolor{lststr}{RGB}{160,40,40}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{lstbg},
+  frame=single,
+  rulecolor=\color{gray!50},
+  breaklines=true,
+  breakatwhitespace=true,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{lstkw}\bfseries,
+  commentstyle=\color{lstcm}\itshape,
+  stringstyle=\color{lststr},
+  tabsize=2,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  xleftmargin=1em,
+  framexleftmargin=1em,
+  aboveskip=0.8em,
+  belowskip=0.8em
+}
+
+% --- Rust dialect for listings (not shipped by default) ---
+\lstdefinelanguage{Rust}{
+  morekeywords={fn,let,mut,pub,struct,impl,for,in,if,else,while,loop,match,return,
+    use,mod,as,ref,move,where,async,await,Some,None,Ok,Err,self,Self,true,false,
+    crate,extern,static,const,unsafe,trait,type,enum,continue,break,dyn,box},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]\"",
+  sensitive=true
+}
 % --- MARGINI ---
 \usepackage[top=2cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
 % --- FORMATTAZIONE CAPITOLI (titlesec) ---
