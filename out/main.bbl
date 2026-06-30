@@ -74,60 +74,6 @@
       \endverb
       \keyw{Self-protection,adaptive security,autonomic computing,self-* properties,self-adaptive systems}
     \endentry
-    \entry{11126595}{inproceedings}{}{}
-      \name{author}{6}{}{%
-        {{hash=d514ca0bb3cfc76b6bd21f303f0b3e71}{%
-           family={Caiazzi},
-           familyi={C\bibinitperiod},
-           given={Tommaso},
-           giveni={T\bibinitperiod}}}%
-        {{hash=59dd1cd00f630a7cd097330d08eb7053}{%
-           family={Iannucci},
-           familyi={I\bibinitperiod},
-           given={Stefano},
-           giveni={S\bibinitperiod}}}%
-        {{hash=0255a55942e2583bdd9357090f460121}{%
-           family={Marini},
-           familyi={M\bibinitperiod},
-           given={Valerio},
-           giveni={V\bibinitperiod}}}%
-        {{hash=c1e1d7e91112c088f244ba87a29567b3}{%
-           family={Pennino},
-           familyi={P\bibinitperiod},
-           given={Diego},
-           giveni={D\bibinitperiod}}}%
-        {{hash=dda2ee7d7f5180c0265510e45ee45396}{%
-           family={Pizzonia},
-           familyi={P\bibinitperiod},
-           given={Maurizio},
-           giveni={M\bibinitperiod}}}%
-        {{hash=8f3f65c288a40763305968544c2cf827}{%
-           family={Torlone},
-           familyi={T\bibinitperiod},
-           given={Riccardo},
-           giveni={R\bibinitperiod}}}%
-      }
-      \strng{namehash}{c648b466fd4e6a4058a3fc98df801692}
-      \strng{fullhash}{12004b6216a3ef37c534a7286c52a053}
-      \strng{fullhashraw}{12004b6216a3ef37c534a7286c52a053}
-      \strng{bibnamehash}{c648b466fd4e6a4058a3fc98df801692}
-      \strng{authorbibnamehash}{c648b466fd4e6a4058a3fc98df801692}
-      \strng{authornamehash}{c648b466fd4e6a4058a3fc98df801692}
-      \strng{authorfullhash}{12004b6216a3ef37c534a7286c52a053}
-      \strng{authorfullhashraw}{12004b6216a3ef37c534a7286c52a053}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2025 IEEE 49th Annual Computers, Software, and Applications Conference (COMPSAC)}
-      \field{title}{A Novel Architecture for Cyber-Resilient Self-Protecting Systems Based on Blockchain}
-      \field{year}{2025}
-      \field{pages}{1\bibrangedash 8}
-      \range{pages}{8}
-      \verb{doi}
-      \verb 10.1109/COMPSAC65507.2025.00010
-      \endverb
-    \endentry
     \entry{kephart2003vision}{article}{}{}
       \name{author}{2}{}{%
         {{hash=4561b6ab0ad044c0176daf9d8ad2d79e}{%
@@ -152,8 +98,8 @@
       \strng{authornamehash}{e3ca3cb9bfd6cef4666aa8fea7700438}
       \strng{authorfullhash}{e3ca3cb9bfd6cef4666aa8fea7700438}
       \strng{authorfullhashraw}{e3ca3cb9bfd6cef4666aa8fea7700438}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Computer}
@@ -163,48 +109,6 @@
       \field{year}{2003}
       \field{pages}{41\bibrangedash 50}
       \range{pages}{10}
-    \endentry
-    \entry{yuan2014systematic}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=5e01210a61aa0bae970da724b739cad9}{%
-           family={Yuan},
-           familyi={Y\bibinitperiod},
-           given={Eric},
-           giveni={E\bibinitperiod}}}%
-        {{hash=7d2d3d34a92844a771c719872995bb4c}{%
-           family={Esfahani},
-           familyi={E\bibinitperiod},
-           given={Naeem},
-           giveni={N\bibinitperiod}}}%
-        {{hash=7243bc9dcb94a297bc863f672dc9db0c}{%
-           family={Malek},
-           familyi={M\bibinitperiod},
-           given={Sam},
-           giveni={S\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {ACM}%
-      }
-      \strng{namehash}{b13b2c39c595b7b024176970769f396e}
-      \strng{fullhash}{b13b2c39c595b7b024176970769f396e}
-      \strng{fullhashraw}{b13b2c39c595b7b024176970769f396e}
-      \strng{bibnamehash}{b13b2c39c595b7b024176970769f396e}
-      \strng{authorbibnamehash}{b13b2c39c595b7b024176970769f396e}
-      \strng{authornamehash}{b13b2c39c595b7b024176970769f396e}
-      \strng{authorfullhash}{b13b2c39c595b7b024176970769f396e}
-      \strng{authorfullhashraw}{b13b2c39c595b7b024176970769f396e}
-      \field{extraname}{2}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{ACM Transactions on Autonomous and Adaptive Systems (TAAS)}
-      \field{number}{4}
-      \field{title}{A systematic survey of self-protecting software systems}
-      \field{volume}{8}
-      \field{year}{2014}
-      \field{pages}{1\bibrangedash 41}
-      \range{pages}{41}
     \endentry
     \entry{7194653}{inproceedings}{}{}
       \name{author}{3}{}{%
@@ -232,8 +136,8 @@
       \strng{authornamehash}{09a296875550081e27204552bb602356}
       \strng{authorfullhash}{09a296875550081e27204552bb602356}
       \strng{authorfullhashraw}{09a296875550081e27204552bb602356}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2015 IEEE/ACM 10th International Symposium on Software Engineering for Adaptive and Self-Managing Systems}
@@ -275,8 +179,8 @@
       \strng{authornamehash}{7374f8dd8383e9720eab59b2c7aa3146}
       \strng{authorfullhash}{7374f8dd8383e9720eab59b2c7aa3146}
       \strng{authorfullhashraw}{7374f8dd8383e9720eab59b2c7aa3146}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IBM Systems journal}
@@ -336,8 +240,8 @@
       \strng{authornamehash}{16e17d4dbe76bf3197a31075e10618b7}
       \strng{authorfullhash}{9d57fbd4c92955bf9fc4a37ca506835e}
       \strng{authorfullhashraw}{9d57fbd4c92955bf9fc4a37ca506835e}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Systems and Software}
@@ -346,6 +250,102 @@
       \field{year}{2023}
       \field{pages}{111716}
       \range{pages}{1}
+    \endentry
+    \entry{11126595}{inproceedings}{}{}
+      \name{author}{6}{}{%
+        {{hash=d514ca0bb3cfc76b6bd21f303f0b3e71}{%
+           family={Caiazzi},
+           familyi={C\bibinitperiod},
+           given={Tommaso},
+           giveni={T\bibinitperiod}}}%
+        {{hash=59dd1cd00f630a7cd097330d08eb7053}{%
+           family={Iannucci},
+           familyi={I\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod}}}%
+        {{hash=0255a55942e2583bdd9357090f460121}{%
+           family={Marini},
+           familyi={M\bibinitperiod},
+           given={Valerio},
+           giveni={V\bibinitperiod}}}%
+        {{hash=c1e1d7e91112c088f244ba87a29567b3}{%
+           family={Pennino},
+           familyi={P\bibinitperiod},
+           given={Diego},
+           giveni={D\bibinitperiod}}}%
+        {{hash=dda2ee7d7f5180c0265510e45ee45396}{%
+           family={Pizzonia},
+           familyi={P\bibinitperiod},
+           given={Maurizio},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8f3f65c288a40763305968544c2cf827}{%
+           family={Torlone},
+           familyi={T\bibinitperiod},
+           given={Riccardo},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{c648b466fd4e6a4058a3fc98df801692}
+      \strng{fullhash}{12004b6216a3ef37c534a7286c52a053}
+      \strng{fullhashraw}{12004b6216a3ef37c534a7286c52a053}
+      \strng{bibnamehash}{c648b466fd4e6a4058a3fc98df801692}
+      \strng{authorbibnamehash}{c648b466fd4e6a4058a3fc98df801692}
+      \strng{authornamehash}{c648b466fd4e6a4058a3fc98df801692}
+      \strng{authorfullhash}{12004b6216a3ef37c534a7286c52a053}
+      \strng{authorfullhashraw}{12004b6216a3ef37c534a7286c52a053}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2025 IEEE 49th Annual Computers, Software, and Applications Conference (COMPSAC)}
+      \field{title}{A Novel Architecture for Cyber-Resilient Self-Protecting Systems Based on Blockchain}
+      \field{year}{2025}
+      \field{pages}{1\bibrangedash 8}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1109/COMPSAC65507.2025.00010
+      \endverb
+    \endentry
+    \entry{yuan2014systematic}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=5e01210a61aa0bae970da724b739cad9}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod}}}%
+        {{hash=7d2d3d34a92844a771c719872995bb4c}{%
+           family={Esfahani},
+           familyi={E\bibinitperiod},
+           given={Naeem},
+           giveni={N\bibinitperiod}}}%
+        {{hash=7243bc9dcb94a297bc863f672dc9db0c}{%
+           family={Malek},
+           familyi={M\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{b13b2c39c595b7b024176970769f396e}
+      \strng{fullhash}{b13b2c39c595b7b024176970769f396e}
+      \strng{fullhashraw}{b13b2c39c595b7b024176970769f396e}
+      \strng{bibnamehash}{b13b2c39c595b7b024176970769f396e}
+      \strng{authorbibnamehash}{b13b2c39c595b7b024176970769f396e}
+      \strng{authornamehash}{b13b2c39c595b7b024176970769f396e}
+      \strng{authorfullhash}{b13b2c39c595b7b024176970769f396e}
+      \strng{authorfullhashraw}{b13b2c39c595b7b024176970769f396e}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Transactions on Autonomous and Adaptive Systems (TAAS)}
+      \field{number}{4}
+      \field{title}{A systematic survey of self-protecting software systems}
+      \field{volume}{8}
+      \field{year}{2014}
+      \field{pages}{1\bibrangedash 41}
+      \range{pages}{41}
     \endentry
     \entry{wang2022bft}{article}{}{}
       \name{author}{4}{}{%
@@ -505,8 +505,8 @@
       \strng{authornamehash}{486772e4fc2de8d78d5ded79e95c1564}
       \strng{authorfullhash}{486772e4fc2de8d78d5ded79e95c1564}
       \strng{authorfullhashraw}{486772e4fc2de8d78d5ded79e95c1564}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium}
@@ -884,8 +884,8 @@
       \strng{authornamehash}{955ab081094f34f854a2e5aafdd52006}
       \strng{authorfullhash}{955ab081094f34f854a2e5aafdd52006}
       \strng{authorfullhashraw}{955ab081094f34f854a2e5aafdd52006}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://github.com/stigmatalgia/SelfProtectingSystem}}

@@ -1,20 +1,41 @@
 % ==============================================================================
-% CHAPTER 6: CONCLUSIONS
+% CHAPTER 7: CONCLUSIONS
 % ==============================================================================
 
 \chapter{Conclusions and Future Work}
 \label{chap:conclusions}
 
-% Wrap up the thesis.
-
+% ------------------------------------------------------------------------------
 \section{Summary of Research Findings}
 \label{sec:conc_summary}
-% Reiterate the winner of the comparison and why general-purpose blockchains are sub-optimal.
+% ------------------------------------------------------------------------------
 
+This thesis set out to determine whether the blockchain substrate on which an SPS is built is a neutral choice or a consequential one. Starting from the decentralized autonomic manager of~\cite{11126595}, refined through the requirement-driven analysis of~\cite{albero2026blockchain}, we formalized a technology-agnostic architecture in which IDS observations are consolidated by a quorum predicate, response decisions are expressed as a deterministic state-action map. On top of that we then compared two realizations of the same state machine: a general-purpose smart-contract platform such as GoQuorum and an application-specific distributed state machine such as CometBFT.
+
+The requirement alignment of Chapter~\ref{chap:requirements} already suggested the direction of the answer: Quorum satisfies every \emph{required} property, but it carries along, as inherited baggage that enlarge the trusted computing base without contributing to the control loop. CometBFT, exposes a minimal transaction pipeline, leaving every application-specific decision to the developer; in the narrow SPS use case this absence of non-required functionality is itself a form of alignment. The experimental campaign of Chapter~\ref{chap:experiments} was designed to test whether this qualitative mismatch translates into measurable behaviour, and the research questions posed in Section~\ref{subsec:exp_rqs} were answered consistently in the same direction.
+
+Taken together, the three experiments tell a coherent story. The SPS control loop reacts in fractions of a second on isolated alerts, sustains k-TPS bursts without loss when redundancy cannot be filtered upstream, and, in its intended operating regime, collapses four orders of magnitude of redundant attack traffic into a bounded, constant number of state transitions. Across all three regimes the CometBFT-based configuration exhibits the lower latency, higher throughput, and more predictable resource usage that the requirement-driven analysis of Chapter~\ref{chap:requirements} predicted, providing quantitative support for the central thesis of this work: an application-specific distributed state machine is a better fit for a cyber-resilient Self-Protecting System than a general-purpose smart-contract platform. This does not imply that GoQuorum is unsuitable, it satisfies every required property and remains a viable choice in simpler operating environments, but rather that its inherited machinery is non-intrinsic overhead in the SPS context, and that overhead becomes measurable, and determinant in a real use-case scenario choice.
+
+% ------------------------------------------------------------------------------
 \section{Limitations of the Study}
 \label{sec:conc_limitations}
-% Discuss scalability issues of BFT with many nodes and static membership limits.
+% ------------------------------------------------------------------------------
 
+It is fundamental to interpret this research as an extended feasibility study. The implementation provided is far from a mature and deployable state and is to be intended as a first step towards the exploration of ``unconventional'' blockchain systems in autonomic computing; our model still suffers most young software's problems, and several assumptions that simplified the feasibility examination should be loosened before any production claim can be made.
+
+A first class of limitations concerns the experimental setting itself. All measurements were taken on a single dedicated machine (Section~\ref{subsec:exp_testbed}), with the entire topology: validators, member/light nodes, IDSs, actuator, and the managed system co-located on one host and emulated through Kathará. While this preserves the container isolation primitive on which the threat model relies, it removes the network latency, jitter, and partitioning behaviour of a geographically distributed deployment, and it lets the experiment profit from shared-memory bandwidth that a real cluster would not provide. The absolute numbers reported in Chapter~\ref{chap:experiments} should therefore be read as relative comparisons between two backends measured under identical conditions, not as performance figures of a production system.
+
+A second class of limitations concerns the scope of the threat model and of the managed system. The prototype protects a single deliberately vulnerable application against four canonical web attack classes, detected by three heterogeneous engines with shared signatures. This is enough to exercise every component of the loop, but it is narrow: the state vector is only four bits wide, the state--action map covers fifteen non-trivial entries, and no multi-stage or low-and-slow attack is modelled, so the Markov limitation of Section~\ref{subsec:assumption} the inability of a direct state--action map to capture temporal context, is acknowledged but never stressed experimentally. Likewise, the threat model of Section~\ref{subsec:security_objectives} assumes a robust container isolation primitive, isolated management segments, and correctly implemented ABCI code, the prototype does not exercise container escapes, validator key compromise, or bugs in the Rust state machine, all of which remain residual risks (Section~\ref{subsec:residual_risk}) that the architecture can mitigate but not eliminate.
+
+A third class of limitations concerns engineering maturity.  The CometBFT configuration deliberately delegates features that Quorum provides natively, most notably permissioned static membership and push-based notification (Table~\ref{tab:comparison}); in the prototype these are simplified or implemented as ad-hoc application-layer policies, and the resulting means that some required properties are demonstrated rather than engineered to production grade.
+
+% ------------------------------------------------------------------------------
 \section{Future Directions}
 \label{sec:conc_future_work}
-% Propose testing on physical clusters, complex attack scenarios, and sharding.
+% ------------------------------------------------------------------------------
+
+The limitations above naturally outline a research agenda. The most immediate direction is to move the prototype off a single emulated host and onto a physical cluster, ideally spanning more than one site or deploying the system in Kubernetes or other orchestrator. A geographically distributed deployment would reintroduce the network conditions: propagation delay, jitter, and asymmetric partitions that the current setting abstracts away, allowing the liveness bounds of Section~\ref{subsec:control_liveness} to be measured against real wide-area behaviour rather than against a shared-memory best case.
+
+A second direction is to implement a plug-and-play configuration for managing the observed attack surface and the expressiveness of the response logic. Beyond the four canonical web attacks there are multi-stage scenarios which would directly exercise the temporal-context limitation of Section~\ref{subsec:assumption} and force the state representation to incorporate the memory variables,event counters, cooldown flags, that a pure state-action map omits. This raises the orthogonal question of how the deduplication middleware of Section~\ref{sec:impl_dedup}, which currently keys on attack type within a block window, should be generalized once transitions depend on history rather than on an instantaneous bit-vector. Enriching the detection plane with additional heterogeneous engines and with anomaly-based, rather than purely signature-based, sensors would let the voting predicate be evaluated under noisier, less correlated observations.
+
+A last direction is to harden the engineering and assurance side of the system. The custom clients that glue the detection, consensus, and control planes together should be replaced with hardened, configurable, and mutually authenticated components; permissioned membership and push-based notification, currently delegated to ad-hoc application-layer policies, should be promoted to auditable mechanisms with explicit governance workflows, ideally integrated with hardware-backed keys and external approval. Most importantly, the state transition function whether it lives in the Rust ABCI application or in the Solidity contract is a critical component, subjecting it to formal verification, or at least to deterministic-property testing across replicas, would convert the current assumption of correctness of response into a real evidence. 

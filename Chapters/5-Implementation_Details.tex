@@ -62,7 +62,7 @@ The four \textbf{blockchain-facing nodes} are the API gateways of the manager. M
 
 The \textbf{actuator} is the only component allowed to modify the managed system, and it is by design \emph{blind} (Section~\ref{subsec:blind_actuators}): it never queries the Juice Shop's state and never accepts instructions from anyone except an HTTP \texttt{POST /action} carrying the action string selected by the state machine. The actuator executes that string on the Juice Shop over a pre-shared SSH key:
 
-the actuator holds no application credentials. After execution it appends a timestamped record to \texttt{/var/log/actuator\_actions.log} (which the benchmark harness parses for end-to-end latency, //TODO: Ricordarsi di citare questa parte nel capitolo successivo)// and posts a \texttt{NEGATIVE ALERT} to each IDS over the feedback network to close the recovery loop (Section~\ref{subsec:feedback_closure}).
+the actuator holds no application credentials. After execution it appends a timestamped record to \texttt{/var/log/actuator\_actions.log} which the benchmark harness parses for end-to-end latency, and posts a \texttt{NEGATIVE ALERT} to each IDS over the feedback network to close the recovery loop (Section~\ref{subsec:feedback_closure}).
 
 \section{The Replicated Decision State Machine}
 \label{sec:impl_state_machine}
