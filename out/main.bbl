@@ -19,72 +19,74 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
-    \entry{10.1145/2555611}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=5e01210a61aa0bae970da724b739cad9}{%
-           family={Yuan},
-           familyi={Y\bibinitperiod},
-           given={Eric},
-           giveni={E\bibinitperiod}}}%
-        {{hash=7d2d3d34a92844a771c719872995bb4c}{%
-           family={Esfahani},
-           familyi={E\bibinitperiod},
-           given={Naeem},
-           giveni={N\bibinitperiod}}}%
-        {{hash=7243bc9dcb94a297bc863f672dc9db0c}{%
-           family={Malek},
-           familyi={M\bibinitperiod},
-           given={Sam},
+    \entry{albero2026blockchain}{inproceedings}{}{}
+      \name{author}{6}{}{%
+        {{hash=2a99294cc278e4c2e251f32489cb003c}{%
+           family={Albero},
+           familyi={A\bibinitperiod},
+           given={Simone},
            giveni={S\bibinitperiod}}}%
+        {{hash=318998351780b60f66bcd820403eac00}{%
+           family={Tatti},
+           familyi={T\bibinitperiod},
+           given={Valerio},
+           giveni={V\bibinitperiod}}}%
+        {{hash=c1e1d7e91112c088f244ba87a29567b3}{%
+           family={Pennino},
+           familyi={P\bibinitperiod},
+           given={Diego},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d514ca0bb3cfc76b6bd21f303f0b3e71}{%
+           family={Caiazzi},
+           familyi={C\bibinitperiod},
+           given={Tommaso},
+           giveni={T\bibinitperiod}}}%
+        {{hash=59dd1cd00f630a7cd097330d08eb7053}{%
+           family={Iannucci},
+           familyi={I\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod}}}%
+        {{hash=dda2ee7d7f5180c0265510e45ee45396}{%
+           family={Pizzonia},
+           familyi={P\bibinitperiod},
+           given={Maurizio},
+           giveni={M\bibinitperiod}}}%
       }
       \list{location}{1}{%
-        {New York, NY, USA}%
+        {Pula, Italy}%
       }
       \list{publisher}{1}{%
-        {Association for Computing Machinery}%
+        {CEUR-WS.org}%
       }
-      \strng{namehash}{b13b2c39c595b7b024176970769f396e}
-      \strng{fullhash}{b13b2c39c595b7b024176970769f396e}
-      \strng{fullhashraw}{b13b2c39c595b7b024176970769f396e}
-      \strng{bibnamehash}{b13b2c39c595b7b024176970769f396e}
-      \strng{authorbibnamehash}{b13b2c39c595b7b024176970769f396e}
-      \strng{authornamehash}{b13b2c39c595b7b024176970769f396e}
-      \strng{authorfullhash}{b13b2c39c595b7b024176970769f396e}
-      \strng{authorfullhashraw}{b13b2c39c595b7b024176970769f396e}
-      \field{extraname}{1}
+      \strng{namehash}{25d9f4b0de891de925808ee9991eeac0}
+      \strng{fullhash}{cbff48959b707529ab202fdc705d5cd4}
+      \strng{fullhashraw}{cbff48959b707529ab202fdc705d5cd4}
+      \strng{bibnamehash}{25d9f4b0de891de925808ee9991eeac0}
+      \strng{authorbibnamehash}{25d9f4b0de891de925808ee9991eeac0}
+      \strng{authornamehash}{25d9f4b0de891de925808ee9991eeac0}
+      \strng{authorfullhash}{cbff48959b707529ab202fdc705d5cd4}
+      \strng{authorfullhashraw}{cbff48959b707529ab202fdc705d5cd4}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{issn}{1556-4665}
-      \field{journaltitle}{ACM Trans. Auton. Adapt. Syst.}
-      \field{month}{1}
-      \field{number}{4}
-      \field{title}{A Systematic Survey of Self-Protecting Software Systems}
-      \field{volume}{8}
-      \field{year}{2014}
-      \verb{doi}
-      \verb 10.1145/2555611
-      \endverb
-      \verb{urlraw}
-      \verb https://doi.org/10.1145/2555611
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1145/2555611
-      \endverb
-      \keyw{Self-protection,adaptive security,autonomic computing,self-* properties,self-adaptive systems}
+      \field{booktitle}{Proceedings of the 8th Distributed Ledger Technology Workshop (DLT 2026)}
+      \field{month}{6}
+      \field{note}{In press}
+      \field{title}{Which Blockchain Technology Best Supports Self-Protecting Systems? A comparison between Quorum and CometBFT}
+      \field{year}{2026}
     \endentry
     \entry{kephart2003vision}{article}{}{}
       \name{author}{2}{}{%
         {{hash=4561b6ab0ad044c0176daf9d8ad2d79e}{%
            family={Kephart},
            familyi={K\bibinitperiod},
-           given={Jeffrey\bibnamedelima O},
+           given={Jeffrey\bibnamedelima O.},
            giveni={J\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
         {{hash=6abf78bc82939db4b1774c03c8c54df3}{%
            family={Chess},
            familyi={C\bibinitperiod},
-           given={David\bibnamedelima M},
+           given={David\bibnamedelima M.},
            giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
       }
       \list{publisher}{1}{%
@@ -98,8 +100,8 @@
       \strng{authornamehash}{e3ca3cb9bfd6cef4666aa8fea7700438}
       \strng{authorfullhash}{e3ca3cb9bfd6cef4666aa8fea7700438}
       \strng{authorfullhashraw}{e3ca3cb9bfd6cef4666aa8fea7700438}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Computer}
@@ -109,63 +111,26 @@
       \field{year}{2003}
       \field{pages}{41\bibrangedash 50}
       \range{pages}{10}
-    \endentry
-    \entry{7194653}{inproceedings}{}{}
-      \name{author}{3}{}{%
-        {{hash=aa9c5a8c92691f7f38d2155b9751db7a}{%
-           family={Arcaini},
-           familyi={A\bibinitperiod},
-           given={Paolo},
-           giveni={P\bibinitperiod}}}%
-        {{hash=9b4cdf3a5547a3104ef383b80fa55a68}{%
-           family={Riccobene},
-           familyi={R\bibinitperiod},
-           given={Elvinia},
-           giveni={E\bibinitperiod}}}%
-        {{hash=c3cae1a69e4607a6ccff617cb152ea35}{%
-           family={Scandurra},
-           familyi={S\bibinitperiod},
-           given={Patrizia},
-           giveni={P\bibinitperiod}}}%
-      }
-      \strng{namehash}{09a296875550081e27204552bb602356}
-      \strng{fullhash}{09a296875550081e27204552bb602356}
-      \strng{fullhashraw}{09a296875550081e27204552bb602356}
-      \strng{bibnamehash}{09a296875550081e27204552bb602356}
-      \strng{authorbibnamehash}{09a296875550081e27204552bb602356}
-      \strng{authornamehash}{09a296875550081e27204552bb602356}
-      \strng{authorfullhash}{09a296875550081e27204552bb602356}
-      \strng{authorfullhashraw}{09a296875550081e27204552bb602356}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2015 IEEE/ACM 10th International Symposium on Software Engineering for Adaptive and Self-Managing Systems}
-      \field{title}{Modeling and Analyzing MAPE-K Feedback Loops for Self-Adaptation}
-      \field{year}{2015}
-      \field{pages}{13\bibrangedash 23}
-      \range{pages}{11}
       \verb{doi}
-      \verb 10.1109/SEAMS.2015.10
+      \verb 10.1109/MC.2003.1160055
       \endverb
-      \keyw{Adaptation models;Monitoring;Cameras;Unified modeling language;Computational modeling;Analytical models;Organizations;self-adaptation;MAPE-K;formal modeling;validation & verification;Abstract State Machines}
     \endentry
     \entry{chess2003security}{article}{}{}
       \name{author}{3}{}{%
         {{hash=6abf78bc82939db4b1774c03c8c54df3}{%
            family={Chess},
            familyi={C\bibinitperiod},
-           given={David\bibnamedelima M},
+           given={David\bibnamedelima M.},
            giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
         {{hash=f1c1a82f9f831b66afd4d3d1159d1080}{%
            family={Palmer},
            familyi={P\bibinitperiod},
-           given={Charles\bibnamedelima C},
+           given={Charles\bibnamedelima C.},
            giveni={C\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
         {{hash=4aeb2ca389e6cf2b991a997a3cc5c310}{%
            family={White},
            familyi={W\bibinitperiod},
-           given={Steve\bibnamedelima R},
+           given={Steve\bibnamedelima R.},
            giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
       }
       \list{publisher}{1}{%
@@ -179,17 +144,20 @@
       \strng{authornamehash}{7374f8dd8383e9720eab59b2c7aa3146}
       \strng{authorfullhash}{7374f8dd8383e9720eab59b2c7aa3146}
       \strng{authorfullhashraw}{7374f8dd8383e9720eab59b2c7aa3146}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{IBM Systems journal}
+      \field{journaltitle}{IBM Systems Journal}
       \field{number}{1}
       \field{title}{Security in an autonomic computing environment}
       \field{volume}{42}
       \field{year}{2003}
       \field{pages}{107\bibrangedash 118}
       \range{pages}{12}
+      \verb{doi}
+      \verb 10.1147/sj.421.0107
+      \endverb
     \endentry
     \entry{pekaric2023systematic}{article}{}{}
       \name{author}{7}{}{%
@@ -240,8 +208,8 @@
       \strng{authornamehash}{16e17d4dbe76bf3197a31075e10618b7}
       \strng{authorfullhash}{9d57fbd4c92955bf9fc4a37ca506835e}
       \strng{authorfullhashraw}{9d57fbd4c92955bf9fc4a37ca506835e}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Systems and Software}
@@ -250,59 +218,8 @@
       \field{year}{2023}
       \field{pages}{111716}
       \range{pages}{1}
-    \endentry
-    \entry{11126595}{inproceedings}{}{}
-      \name{author}{6}{}{%
-        {{hash=d514ca0bb3cfc76b6bd21f303f0b3e71}{%
-           family={Caiazzi},
-           familyi={C\bibinitperiod},
-           given={Tommaso},
-           giveni={T\bibinitperiod}}}%
-        {{hash=59dd1cd00f630a7cd097330d08eb7053}{%
-           family={Iannucci},
-           familyi={I\bibinitperiod},
-           given={Stefano},
-           giveni={S\bibinitperiod}}}%
-        {{hash=0255a55942e2583bdd9357090f460121}{%
-           family={Marini},
-           familyi={M\bibinitperiod},
-           given={Valerio},
-           giveni={V\bibinitperiod}}}%
-        {{hash=c1e1d7e91112c088f244ba87a29567b3}{%
-           family={Pennino},
-           familyi={P\bibinitperiod},
-           given={Diego},
-           giveni={D\bibinitperiod}}}%
-        {{hash=dda2ee7d7f5180c0265510e45ee45396}{%
-           family={Pizzonia},
-           familyi={P\bibinitperiod},
-           given={Maurizio},
-           giveni={M\bibinitperiod}}}%
-        {{hash=8f3f65c288a40763305968544c2cf827}{%
-           family={Torlone},
-           familyi={T\bibinitperiod},
-           given={Riccardo},
-           giveni={R\bibinitperiod}}}%
-      }
-      \strng{namehash}{c648b466fd4e6a4058a3fc98df801692}
-      \strng{fullhash}{12004b6216a3ef37c534a7286c52a053}
-      \strng{fullhashraw}{12004b6216a3ef37c534a7286c52a053}
-      \strng{bibnamehash}{c648b466fd4e6a4058a3fc98df801692}
-      \strng{authorbibnamehash}{c648b466fd4e6a4058a3fc98df801692}
-      \strng{authornamehash}{c648b466fd4e6a4058a3fc98df801692}
-      \strng{authorfullhash}{12004b6216a3ef37c534a7286c52a053}
-      \strng{authorfullhashraw}{12004b6216a3ef37c534a7286c52a053}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2025 IEEE 49th Annual Computers, Software, and Applications Conference (COMPSAC)}
-      \field{title}{A Novel Architecture for Cyber-Resilient Self-Protecting Systems Based on Blockchain}
-      \field{year}{2025}
-      \field{pages}{1\bibrangedash 8}
-      \range{pages}{8}
       \verb{doi}
-      \verb 10.1109/COMPSAC65507.2025.00010
+      \verb 10.1016/j.jss.2023.111716
       \endverb
     \endentry
     \entry{yuan2014systematic}{article}{}{}
@@ -323,8 +240,11 @@
            given={Sam},
            giveni={S\bibinitperiod}}}%
       }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
       \list{publisher}{1}{%
-        {ACM}%
+        {Association for Computing Machinery}%
       }
       \strng{namehash}{b13b2c39c595b7b024176970769f396e}
       \strng{fullhash}{b13b2c39c595b7b024176970769f396e}
@@ -334,18 +254,20 @@
       \strng{authornamehash}{b13b2c39c595b7b024176970769f396e}
       \strng{authorfullhash}{b13b2c39c595b7b024176970769f396e}
       \strng{authorfullhashraw}{b13b2c39c595b7b024176970769f396e}
-      \field{extraname}{2}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{ACM Transactions on Autonomous and Adaptive Systems (TAAS)}
       \field{number}{4}
-      \field{title}{A systematic survey of self-protecting software systems}
+      \field{title}{A Systematic Survey of Self-Protecting Software Systems}
       \field{volume}{8}
       \field{year}{2014}
       \field{pages}{1\bibrangedash 41}
       \range{pages}{41}
+      \verb{doi}
+      \verb 10.1145/2555611
+      \endverb
     \endentry
     \entry{wang2022bft}{article}{}{}
       \name{author}{4}{}{%
@@ -387,15 +309,16 @@
       \field{labeltitlesource}{title}
       \field{journaltitle}{ACM Computing Surveys (CSUR)}
       \field{number}{10s}
-      \field{title}{Bft in blockchains: From protocols to use cases}
+      \field{title}{{{BFT}} in blockchains: From protocols to use cases}
       \field{volume}{54}
       \field{year}{2022}
       \field{pages}{1\bibrangedash 37}
       \range{pages}{37}
+      \verb{doi}
+      \verb 10.1145/3503463
+      \endverb
     \endentry
     \entry{buterin2013ethereum}{article}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
       \name{author}{1}{}{%
         {{hash=850981945102d0f671b6762173c8988a}{%
            family={Buterin},
@@ -403,115 +326,63 @@
            given={Vitalik},
            giveni={V\bibinitperiod}}}%
       }
-      \strng{namehash}{fa265b80691610b5092f93ae4a80f9b7}
-      \strng{fullhash}{fa265b80691610b5092f93ae4a80f9b7}
-      \strng{fullhashraw}{fa265b80691610b5092f93ae4a80f9b7}
-      \strng{bibnamehash}{fa265b80691610b5092f93ae4a80f9b7}
-      \strng{authorbibnamehash}{fa265b80691610b5092f93ae4a80f9b7}
-      \strng{authornamehash}{fa265b80691610b5092f93ae4a80f9b7}
-      \strng{authorfullhash}{fa265b80691610b5092f93ae4a80f9b7}
-      \strng{authorfullhashraw}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{namehash}{850981945102d0f671b6762173c8988a}
+      \strng{fullhash}{850981945102d0f671b6762173c8988a}
+      \strng{fullhashraw}{850981945102d0f671b6762173c8988a}
+      \strng{bibnamehash}{850981945102d0f671b6762173c8988a}
+      \strng{authorbibnamehash}{850981945102d0f671b6762173c8988a}
+      \strng{authornamehash}{850981945102d0f671b6762173c8988a}
+      \strng{authorfullhash}{850981945102d0f671b6762173c8988a}
+      \strng{authorfullhashraw}{850981945102d0f671b6762173c8988a}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{GitHub repository}
-      \field{title}{Ethereum white paper}
+      \field{title}{{{Ethereum}} white paper}
       \field{volume}{1}
       \field{year}{2013}
       \field{pages}{22\bibrangedash 23}
       \range{pages}{2}
     \endentry
-    \entry{albero2026blockchain}{inproceedings}{}{}
-      \name{author}{6}{}{%
-        {{hash=2a99294cc278e4c2e251f32489cb003c}{%
-           family={Albero},
+    \entry{kathara}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=684ca351fc941755af4c212383428f85}{%
+           family={Scazzariello},
+           familyi={S\bibinitperiod},
+           given={Mariano},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f21b1afd71c67d11cc3805d30f7096cb}{%
+           family={Ariemma},
            familyi={A\bibinitperiod},
-           given={Simone},
-           giveni={S\bibinitperiod}}}%
-        {{hash=318998351780b60f66bcd820403eac00}{%
-           family={Tatti},
-           familyi={T\bibinitperiod},
-           given={Valerio},
-           giveni={V\bibinitperiod}}}%
-        {{hash=c1e1d7e91112c088f244ba87a29567b3}{%
-           family={Pennino},
-           familyi={P\bibinitperiod},
-           given={Diego},
-           giveni={D\bibinitperiod}}}%
+           given={Lorenzo},
+           giveni={L\bibinitperiod}}}%
         {{hash=d514ca0bb3cfc76b6bd21f303f0b3e71}{%
            family={Caiazzi},
            familyi={C\bibinitperiod},
            given={Tommaso},
            giveni={T\bibinitperiod}}}%
-        {{hash=59dd1cd00f630a7cd097330d08eb7053}{%
-           family={Iannucci},
-           familyi={I\bibinitperiod},
-           given={Stefano},
-           giveni={S\bibinitperiod}}}%
-        {{hash=dda2ee7d7f5180c0265510e45ee45396}{%
-           family={Pizzonia},
-           familyi={P\bibinitperiod},
-           given={Maurizio},
-           giveni={M\bibinitperiod}}}%
       }
-      \list{location}{1}{%
-        {Pula, Italy}%
-      }
-      \list{publisher}{1}{%
-        {CEUR-WS.org}%
-      }
-      \strng{namehash}{25d9f4b0de891de925808ee9991eeac0}
-      \strng{fullhash}{cbff48959b707529ab202fdc705d5cd4}
-      \strng{fullhashraw}{cbff48959b707529ab202fdc705d5cd4}
-      \strng{bibnamehash}{25d9f4b0de891de925808ee9991eeac0}
-      \strng{authorbibnamehash}{25d9f4b0de891de925808ee9991eeac0}
-      \strng{authornamehash}{25d9f4b0de891de925808ee9991eeac0}
-      \strng{authorfullhash}{cbff48959b707529ab202fdc705d5cd4}
-      \strng{authorfullhashraw}{cbff48959b707529ab202fdc705d5cd4}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 8th Distributed Ledger Technology Workshop (DLT 2026)}
-      \field{month}{6}
-      \field{note}{In press}
-      \field{title}{Which Blockchain Technology Best Supports Self-Protecting Systems? A comparison between Quorum and CometBFT}
-      \field{year}{2026}
-    \endentry
-    \entry{kathara}{inproceedings}{}{}
-      \name{author}{3}{}{%
-        {{hash=9501f2059db90cfc91a8879eb24e1d6e}{%
-           family={{Scazzariello}},
-           familyi={S\bibinitperiod},
-           given={M.},
-           giveni={M\bibinitperiod}}}%
-        {{hash=b6f8e93170bb975b199ae6fb43527558}{%
-           family={{Ariemma}},
-           familyi={A\bibinitperiod},
-           given={L.},
-           giveni={L\bibinitperiod}}}%
-        {{hash=9381f2531b581e62bedb0d3263bc555a}{%
-           family={{Caiazzi}},
-           familyi={C\bibinitperiod},
-           given={T.},
-           giveni={T\bibinitperiod}}}%
-      }
-      \strng{namehash}{486772e4fc2de8d78d5ded79e95c1564}
-      \strng{fullhash}{486772e4fc2de8d78d5ded79e95c1564}
-      \strng{fullhashraw}{486772e4fc2de8d78d5ded79e95c1564}
-      \strng{bibnamehash}{486772e4fc2de8d78d5ded79e95c1564}
-      \strng{authorbibnamehash}{486772e4fc2de8d78d5ded79e95c1564}
-      \strng{authornamehash}{486772e4fc2de8d78d5ded79e95c1564}
-      \strng{authorfullhash}{486772e4fc2de8d78d5ded79e95c1564}
-      \strng{authorfullhashraw}{486772e4fc2de8d78d5ded79e95c1564}
+      \strng{namehash}{63b7137a15f402a60b7dfa458827aa48}
+      \strng{fullhash}{63b7137a15f402a60b7dfa458827aa48}
+      \strng{fullhashraw}{63b7137a15f402a60b7dfa458827aa48}
+      \strng{bibnamehash}{63b7137a15f402a60b7dfa458827aa48}
+      \strng{authorbibnamehash}{63b7137a15f402a60b7dfa458827aa48}
+      \strng{authornamehash}{63b7137a15f402a60b7dfa458827aa48}
+      \strng{authorfullhash}{63b7137a15f402a60b7dfa458827aa48}
+      \strng{authorfullhashraw}{63b7137a15f402a60b7dfa458827aa48}
       \field{sortinit}{4}
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium}
-      \field{title}{{Kathará: A Lightweight Network Emulation System}}
+      \field{title}{{{Kathará: A Lightweight Network Emulation System}}}
       \field{year}{2020}
+      \field{pages}{1\bibrangedash 2}
+      \range{pages}{2}
+      \verb{doi}
+      \verb 10.1109/NOMS47711.2020.9110427
+      \endverb
     \endentry
     \entry{QBFTCons90:online}{misc}{}{}
       \name{author}{1}{}{%
@@ -531,16 +402,10 @@
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{month}{11}
-      \field{note}{[Online; accessed 2025-02-26]}
-      \field{title}{QBFT | ConsenSys GoQuorum}
+      \field{howpublished}{\url{https://docs.goquorum.consensys.io/configure-and-manage/configure/consensus-protocols/qbft}}
+      \field{note}{Online; accessed 2025-02-26}
+      \field{title}{{{QBFT | ConsenSys GoQuorum}}}
       \field{year}{2023}
-      \verb{urlraw}
-      \verb https://docs.goquorum.consensys.io/configure-and-manage/configure/consensus-protocols/qbft
-      \endverb
-      \verb{url}
-      \verb https://docs.goquorum.consensys.io/configure-and-manage/configure/consensus-protocols/qbft
-      \endverb
     \endentry
     \entry{moniz2020istanbul}{article}{}{}
       \name{author}{1}{}{%
@@ -563,7 +428,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:2002.03613}
-      \field{title}{The Istanbul BFT consensus algorithm}
+      \field{title}{The {{Istanbul BFT}} consensus algorithm}
       \field{year}{2020}
     \endentry
     \entry{buchman2018latest}{article}{}{}
@@ -597,7 +462,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:1807.04938}
-      \field{title}{The latest gossip on BFT consensus}
+      \field{title}{The latest gossip on {{BFT}} consensus}
       \field{year}{2018}
     \endentry
     \entry{cometbft}{misc}{}{}
@@ -621,7 +486,7 @@
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://cometbft.com}}
       \field{note}{Accessed April 2026}
-      \field{title}{{CometBFT}}
+      \field{title}{{{CometBFT}}}
       \field{year}{2025}
     \endentry
     \entry{abciOverview}{misc}{}{}
@@ -642,15 +507,10 @@
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://docs.cosmos.network/sdk/latest/guides/abci/abci.md}}
       \field{note}{Accessed May 2026}
-      \field{title}{{ABCI Overview}}
+      \field{title}{{{ABCI Overview}}}
       \field{year}{2026}
-      \verb{urlraw}
-      \verb https://docs.cosmos.network/sdk/latest/guides/abci/abci.md
-      \endverb
-      \verb{url}
-      \verb https://docs.cosmos.network/sdk/latest/guides/abci/abci.md
-      \endverb
     \endentry
     \entry{cometbftConfig}{misc}{}{}
       \name{author}{1}{}{%
@@ -671,15 +531,10 @@
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/cometbft/cometbft/blob/main/config/config.go}}
       \field{note}{Accessed May 2026}
-      \field{title}{{CometBFT Configuration}}
+      \field{title}{{{CometBFT Configuration}}}
       \field{year}{2026}
-      \verb{urlraw}
-      \verb https://github.com/cometbft/cometbft/blob/main/config/config.go
-      \endverb
-      \verb{url}
-      \verb https://github.com/cometbft/cometbft/blob/main/config/config.go
-      \endverb
     \endentry
     \entry{monte2020scaling}{inproceedings}{}{}
       \name{author}{3}{}{%
@@ -716,6 +571,9 @@
       \field{year}{2020}
       \field{pages}{71\bibrangedash 76}
       \range{pages}{6}
+      \verb{doi}
+      \verb 10.1145/3410699.3413796
+      \endverb
     \endentry
     \entry{iannucci2018model}{article}{}{}
       \name{author}{7}{}{%
@@ -747,12 +605,12 @@
         {{hash=eef6ff7b1d877784273c234bee674814}{%
            family={King},
            familyi={K\bibinitperiod},
-           given={Jason\bibnamedelima S},
+           given={Jason\bibnamedelima S.},
            giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
         {{hash=bbcad90902a4e7fe192ec81044843fcd}{%
            family={Hamilton},
            familyi={H\bibinitperiod},
-           given={John\bibnamedelima A},
+           given={John\bibnamedelima A.},
            giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
       }
       \list{publisher}{1}{%
@@ -777,6 +635,9 @@
       \field{year}{2018}
       \field{pages}{1380\bibrangedash 1392}
       \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/TSE.2018.2880224
+      \endverb
     \endentry
     \entry{atzei2017survey}{inproceedings}{}{}
       \name{author}{3}{}{%
@@ -796,7 +657,7 @@
            given={Tiziana},
            giveni={T\bibinitperiod}}}%
       }
-      \list{organization}{1}{%
+      \list{publisher}{1}{%
         {Springer}%
       }
       \strng{namehash}{f700c8ad48789f9500314c4059a84040}
@@ -811,8 +672,8 @@
       \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{International conference on principles of security and trust}
-      \field{title}{A survey of attacks on ethereum smart contracts (sok)}
+      \field{booktitle}{International Conference on Principles of Security and Trust}
+      \field{title}{A survey of attacks on {{Ethereum}} smart contracts ({{SoK}})}
       \field{year}{2017}
       \field{pages}{164\bibrangedash 186}
       \range{pages}{23}
@@ -861,11 +722,14 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Access}
-      \field{title}{Systematic review of security vulnerabilities in ethereum blockchain smart contract}
+      \field{title}{Systematic review of security vulnerabilities in {{Ethereum}} blockchain smart contract}
       \field{volume}{10}
       \field{year}{2022}
       \field{pages}{6605\bibrangedash 6621}
       \range{pages}{17}
+      \verb{doi}
+      \verb 10.1109/ACCESS.2022.3184112
+      \endverb
     \endentry
     \entry{repo}{misc}{}{}
       \name{author}{1}{}{%
@@ -890,7 +754,7 @@
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://github.com/stigmatalgia/SelfProtectingSystem}}
       \field{note}{Accessed: April 2026}
-      \field{title}{{SelfProtectingSystem}: A Novel Architecture for Cyber-Resilient {SPS} Based on Blockchain}
+      \field{title}{{{SelfProtectingSystem}}: A Novel Architecture for Cyber-Resilient {{SPS}} Based on Blockchain}
       \field{year}{2025}
     \endentry
     \entry{owaspjuiceshop}{misc}{}{}
@@ -913,10 +777,59 @@
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://owasp.org/www-project-juice-shop/}}
       \field{note}{Accessed: April 2026}
-      \field{title}{{OWASP Juice Shop}}
+      \field{title}{{{OWASP Juice Shop}}}
       \field{year}{2024}
     \endentry
+    \entry{montemaggio2020designing}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=b6b3efec99f26cb637bcae33feb87d32}{%
+           family={Montemaggio},
+           familyi={M\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=59dd1cd00f630a7cd097330d08eb7053}{%
+           family={Iannucci},
+           familyi={I\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod}}}%
+        {{hash=2437527d462c6bb11046870926304acf}{%
+           family={Bhowmik},
+           familyi={B\bibinitperiod},
+           given={Tanmay},
+           giveni={T\bibinitperiod}}}%
+        {{hash=ca79ee249380705c2b39bae77970f4ae}{%
+           family={Hamilton},
+           familyi={H\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{cf7607d5cdb2bb99df9f3ecc4151388e}
+      \strng{fullhash}{ac5f8482530be09f75c188eef565dca8}
+      \strng{fullhashraw}{ac5f8482530be09f75c188eef565dca8}
+      \strng{bibnamehash}{cf7607d5cdb2bb99df9f3ecc4151388e}
+      \strng{authorbibnamehash}{cf7607d5cdb2bb99df9f3ecc4151388e}
+      \strng{authornamehash}{cf7607d5cdb2bb99df9f3ecc4151388e}
+      \strng{authorfullhash}{ac5f8482530be09f75c188eef565dca8}
+      \strng{authorfullhashraw}{ac5f8482530be09f75c188eef565dca8}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2020 IEEE International Conference on Autonomic Computing and Self-Organizing Systems Companion (ACSOS-C)}
+      \field{title}{Designing a Methodological Framework for the Empirical Evaluation of Self-Protecting Systems}
+      \field{year}{2020}
+      \field{pages}{218\bibrangedash 223}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/ACSOS-C51401.2020.00059
+      \endverb
+    \endentry
   \enddatalist
+  \missing{10.1145/2555611}
+  \missing{7194653}
 \endrefsection
 \endinput
 

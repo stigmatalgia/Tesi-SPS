@@ -5,14 +5,14 @@
 \chapter{Self-Protecting Systems Architecture}
 \label{chap:sps_architecture}
 
-This chapter details the architectural core of the proposed blockchain-based Self-Protecting System (SPS), focusing on how to address the centralized autonomic manager's problem explored in Section ~\ref{sec:tech_state_of_art}. The model presented herein is grounded in the foundational decentralized architecture introduced in ~\cite{11126595} and subsequently refined through the requirement-driven analysis by our research ~\cite{albero2026blockchain}. The primary objective is to formalize the system decomposition, state model, end-to-end protection workflow, threat assumptions, and resilience properties. These components justify the integration of a permissioned, Byzantine Fault Tolerant (BFT) distributed ledger as the secure decision substrate for the autonomic manager.
+This chapter details the architectural core of the proposed blockchain-based Self-Protecting System (SPS), focusing on how to address the centralized autonomic manager's problem explored in Section ~\ref{sec:tech_state_of_art}. The model presented herein is grounded in the foundational decentralized architecture introduced in ~\cite{albero2026blockchain} and subsequently refined through the requirement-driven analysis by our research ~\cite{albero2026blockchain}. The primary objective is to formalize the system decomposition, state model, end-to-end protection workflow, threat assumptions, and resilience properties. These components justify the integration of a permissioned, Byzantine Fault Tolerant (BFT) distributed ledger as the secure decision substrate for the autonomic manager.
 
 \section{Design Principles and Rationale}
 \label{sec:design_principles}
 
 Traditional SPSs are typically designed around a centralized MAPE-K feedback loop~\cite{kephart2003vision}. While functionally effective, this centralized model introduces a fundamental security asymmetry: the managed system can be replicated, segmented, and protected, whereas the autonomic manager itself remains a high-value, centralized target. If an adversary successfully compromises the manager, they can suppress valid security alerts, trigger unauthorized response actions, or stall mitigation entirely. This effectively neutralizes the self-protection mechanism and grants the attacker complete control over the production environment~\cite{chess2003security, pekaric2023systematic}.
 
-To address this structural vulnerability, the architecture proposed in this thesis distributes the decision authority of the autonomic manager across replicated, isolated nodes coordinated through a permissioned blockchain using BFT consensus~\cite{11126595}. The core design choice is not simply the adoption of blockchain as a modern storage medium, but its use as a replicated state machine in which:
+To address this structural vulnerability, the architecture proposed in this thesis distributes the decision authority of the autonomic manager across replicated, isolated nodes coordinated through a permissioned blockchain using BFT consensus~\cite{albero2026blockchain}. The core design choice is not simply the adoption of blockchain as a modern storage medium, but its use as a replicated state machine in which:
 \begin{itemize}
     \item \textbf{Consensus-driven state updates}: Monitored variables representing the managed system state are updated only after achieving quorum-based agreement among independent observers;
     \item \textbf{Deterministic transitions}: Response decisions are modeled as deterministic functions of the globally agreed state, guaranteeing that honest nodes reach identical conclusions;
@@ -26,7 +26,7 @@ At the architectural level, this model is deliberately technology-agnostic. It d
 \section{Architectural Decomposition and Trust Boundaries}
 \label{sec:architecture_decomposition}
 
-To ensure structural resilience, the architecture decomposes the system into distinct functional planes, separated by explicit trust boundaries and network isolation. The system maintains the classic autonomic split between the \emph{managed system} (the production environment) and the \emph{manager system} (the security controller)~\cite{kephart2003vision, 11126595}, but introduces strict boundaries to limit the lateral propagation of attacks.
+To ensure structural resilience, the architecture decomposes the system into distinct functional planes, separated by explicit trust boundaries and network isolation. The system maintains the classic autonomic split between the \emph{managed system} (the production environment) and the \emph{manager system} (the security controller)~\cite{kephart2003vision, albero2026blockchain}, but introduces strict boundaries to limit the lateral propagation of attacks.
 
 \subsection{Managed System}
 \label{subsec:managed_system}
@@ -56,7 +56,7 @@ Each active component in the Detection and Control planes is paired with a block
 \subsection{Isolation and Containerization Requirements}
 \label{subsec:isolation_primitive}
 
-The security of the manager system relies heavily on containerization and network isolation~\cite{11126595}. Each IDS, actuator, and blockchain node must run in its own isolated container, deployed across physical or virtual hosts. In our prototype, this environment is emulated using the Kathará framework~\cite{kathara} on top of Docker. 
+The security of the manager system relies heavily on containerization and network isolation~\cite{albero2026blockchain}. Each IDS, actuator, and blockchain node must run in its own isolated container, deployed across physical or virtual hosts. In our prototype, this environment is emulated using the Kathará framework~\cite{kathara} on top of Docker. 
 
 Under this model, the container boundary serves as the primary security perimeter. If an attacker compromises an application service in the managed system, they cannot pivot into the manager system's containers unless an explicit, authenticated communication path exists. The attack surface of the manager system is restricted to three channels:
 \begin{itemize}
@@ -68,7 +68,7 @@ Under this model, the container boundary serves as the primary security perimete
 \subsection{Actuator Blindness and Unidirectional Control}
 \label{subsec:blind_actuators}
 
-To prevent attackers from manipulating responses, actuators are modeled as \emph{blind}~\cite{11126595}. Actuators do not query the managed system directly to inspect its state, nor do they accept instructions from it. Instead, they operate exclusively as passive consumers of the committed decisions stored in the blockchain. 
+To prevent attackers from manipulating responses, actuators are modeled as \emph{blind}~\cite{albero2026blockchain}. Actuators do not query the managed system directly to inspect its state, nor do they accept instructions from it. Instead, they operate exclusively as passive consumers of the committed decisions stored in the blockchain. 
 
 If an actuator were allowed to pull state variables directly from a compromised application container to confirm an attack, the attacker could exploit this interactive channel to inject malicious payloads or trigger unauthorized actions. By enforcing actuator blindness, the control loop establishes a strict unidirectional data flow: IDSs push observations to the consensus plane, the blockchain validates and commits the state transition, and the resulting response is pushed to the actuators. This design pattern ensures that an actuator only executes commands that have passed through BFT consensus.
 
