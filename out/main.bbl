@@ -55,9 +55,6 @@
       \list{location}{1}{%
         {Pula, Italy}%
       }
-      \list{publisher}{1}{%
-        {CEUR-WS.org}%
-      }
       \strng{namehash}{25d9f4b0de891de925808ee9991eeac0}
       \strng{fullhash}{cbff48959b707529ab202fdc705d5cd4}
       \strng{fullhashraw}{cbff48959b707529ab202fdc705d5cd4}
@@ -100,8 +97,8 @@
       \strng{authornamehash}{e3ca3cb9bfd6cef4666aa8fea7700438}
       \strng{authorfullhash}{e3ca3cb9bfd6cef4666aa8fea7700438}
       \strng{authorfullhashraw}{e3ca3cb9bfd6cef4666aa8fea7700438}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Computer}
@@ -144,8 +141,8 @@
       \strng{authornamehash}{7374f8dd8383e9720eab59b2c7aa3146}
       \strng{authorfullhash}{7374f8dd8383e9720eab59b2c7aa3146}
       \strng{authorfullhashraw}{7374f8dd8383e9720eab59b2c7aa3146}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IBM Systems Journal}
@@ -208,8 +205,8 @@
       \strng{authornamehash}{16e17d4dbe76bf3197a31075e10618b7}
       \strng{authorfullhash}{9d57fbd4c92955bf9fc4a37ca506835e}
       \strng{authorfullhashraw}{9d57fbd4c92955bf9fc4a37ca506835e}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Systems and Software}
@@ -754,7 +751,7 @@
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://github.com/stigmatalgia/SelfProtectingSystem}}
       \field{note}{Accessed: April 2026}
-      \field{title}{{{SelfProtectingSystem}}: A Novel Architecture for Cyber-Resilient {{SPS}} Based on Blockchain}
+      \field{title}{{{SelfProtectingSystem}}: Implementation for 'Which Blockchain Technology Best Supports Self-Protecting Systems? A comparison between Quorum and CometBFT'}
       \field{year}{2025}
     \endentry
     \entry{owaspjuiceshop}{misc}{}{}
@@ -828,8 +825,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{10.1145/2555611}
-  \missing{7194653}
 \endrefsection
 \endinput
 
